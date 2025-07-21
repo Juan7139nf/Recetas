@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="dark">
+<html lang="{{ Auth::user()->settings['language'] ?? str_replace('_', '-', app()->getLocale()) }}"
+    data-theme="{{ Auth::user()->settings['theme'] ?? 'light' }}">
 
 <head>
     <meta charset="utf-8">
@@ -7,30 +8,19 @@
 
     <title>{{ $title ?? 'Page Title' }}</title>
 
+    <link rel="icon" href="{{asset('assets/img/site/logo.ico')}}" type="image/x-icon" sizes="48x48">
+    
     @include('compass.index')
 
-    <link rel="icon" href="{{asset('assets/img/site/logo.ico')}}" type="image/x-icon" sizes="48x48">
-
     <script src="{{ asset('assets/js/jquery.min.js')}}"></script>
+
     @livewireStyles
 
     @livewireScripts
-
 </head>
 
 <body class="{{ site('background', 'bg-neutral-50 dark:bg-neutral-900') }}">
-    <main>
-        <div class="max-w-[40rem] mx-auto p-8">
-            {!! str_replace(
-    [':title', ':img'],
-    [__('site.title'), asset('assets/img/site/logo_100.webp')],
-    site('logo.lg')
-) !!}
-
-            {{ $slot }}
-
-        </div>
-    </main>
+    @include('partials.sidebar', ['slot' => $slot])
 </body>
 
 </html>

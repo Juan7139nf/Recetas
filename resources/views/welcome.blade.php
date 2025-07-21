@@ -16,6 +16,7 @@
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <script src="{{ asset('assets/js/jquery.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
         @import "tailwindcss";
@@ -44,15 +45,39 @@
                                     fill="currentColor" />
                             </svg>
                         </div>
-                        @if (Route::has('login'))
+                        @if (Route::has('auth.login'))
                             <nav class="-mx-3 flex flex-1 justify-end">
                                 @auth
                                     <a href="{{ url('/dashboard') }}"
                                         class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                                         {{ __('Dashboard') }}
                                     </a>
+                                    <a href="#" id="logout-link"
+                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                                        {{ __('Logout') }}
+                                    </a>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('#logout-link').on('click', function (e) {
+                                                e.preventDefault();
+
+                                                $.ajax({
+                                                    url: "{{ route('auth.logout') }}",
+                                                    type: "POST",
+                                                    data: {
+                                                        _method: 'DELETE',
+                                                        _token: '{{ csrf_token() }}'
+                                                    },
+                                                    error: function () {
+                                                        console.log('Error al cerrar sesión');
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
+
                                 @else
-                                    <a href="{{ route('login') }}"
+                                    <a href="{{ route('auth.login') }}"
                                         class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                                         {{ __('Login') }}
                                     </a>

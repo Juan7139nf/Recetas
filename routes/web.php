@@ -1,21 +1,46 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Site\SettingsController;
+use App\Livewire\Admin\Dashboard;
+use App\Livewire\Admin\Products\RecetasAdd;
+use App\Livewire\Admin\Products\RecetasBrowser;
+use App\Livewire\Auth\Login;
 use App\Livewire\Auth\RegisterStep1;
 use App\Livewire\Auth\RegisterStep2;
 use App\Livewire\Auth\RegistrationCompleted;
+use App\Livewire\Site\Home;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 
+/*
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
+})->name('home');*/
 
-Route::get('/login', function () {
-    return view('welcome');
-})->name('login');
+Route::get('/', Home::class)->name('home');
 
 Route::prefix('authentication')->name('auth.')->group(function () {
+    Route::get('/login', Login::class)->name('login');
     Route::get('/register', RegisterStep1::class)->name('register');
     Route::get('/complete-profile', RegisterStep2::class)->middleware('auth')->name('complete-profile');
     Route::get('/registration-completed', RegistrationCompleted::class)->middleware('auth')->name('registration-completed');
+    Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/settings/toggle-theme', [SettingsController::class, 'toggleTheme'])->name('settings.toggleTheme');
+    Route::post('/settings/toggle-language', [SettingsController::class, 'toggleLanguage'])->name('settings.toggleLanguage');
+});
+
+
+Route::prefix('dashboard')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/', Dashboard::class)->name('dashboard');
+
+    Route::prefix('product')->name('product.')->group(function () {
+        Route::prefix('recipe')->name('recipe.')->group(function () {
+            Route::get('/', RecetasBrowser::class)->name('browser');
+            Route::get('/create', RecetasAdd::class)->name('add');
+        });
+    });
 });
