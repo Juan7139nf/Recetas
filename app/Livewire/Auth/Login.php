@@ -29,7 +29,7 @@ class Login extends Component
 
     public function render()
     {
-        return view('auth.login')->layout('layouts.register', [
+        return view('auth.login')->layout('layouts.login', [
             'title' => __('Login'),
         ]);
     }

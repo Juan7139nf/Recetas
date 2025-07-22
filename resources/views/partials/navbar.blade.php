@@ -3,11 +3,7 @@
 
     <!-- Brand Logo -->
     <a href="{{ route('home') }}" class="">
-        {!! str_replace(
-    [':title', ':img'],
-    [__('site.title'), asset('assets/img/site/logo_100.webp')],
-    site('logo.md')
-) !!}
+        {!! str_replace([':title', ':img'], [__('site.title'), asset('assets/img/site/logo_100.webp')], site('logo.md')) !!}
     </a>
     <!-- Search -->
     <div class="relative flex mr-auto w-full max-w-60 flex-col gap-1 text-neutral-100 dark:text-neutral-600">
@@ -32,13 +28,13 @@
             <button onclick="toggleTheme()"
                 class="font-medium text-neutral-600 underline-offset-2 hover:text-black focus:outline-hidden focus:underline dark:text-neutral-300 dark:hover:text-white p-1 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-brightness-high-fill size-5 light-icon {{ Auth::user()->getSetting('theme') === 'light' ? '' : 'hidden' }}"
+                    class="bi bi-brightness-high-fill size-5 light-icon {{ optional(Auth::user())->getSetting('theme') === 'light' ? '' : 'hidden' }}"
                     viewBox="0 0 16 16">
                     <path
                         d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
                 </svg>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-moon-stars-fill size-4 dark-icon {{ Auth::user()->getSetting('theme') === 'dark' ? '' : 'hidden' }} m-1"
+                    class="bi bi-moon-stars-fill size-4 dark-icon {{ optional(Auth::user())->getSetting('theme') === 'dark' ? '' : 'hidden' }} m-1"
                     viewBox="0 0 16 16">
                     <path
                         d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278" />
@@ -48,8 +44,7 @@
             </button>
         </li>
         <!-- User Pic -->
-        <li x-data="{ userDropDownIsOpen: false, openWithKeyboard: false }"
-            x-on:keydown.esc.window="userDropDownIsOpen = false, openWithKeyboard = false"
+        <li x-data="{ userDropDownIsOpen: false, openWithKeyboard: false }" x-on:keydown.esc.window="userDropDownIsOpen = false, openWithKeyboard = false"
             class="relative flex items-center">
             <button x-on:click="userDropDownIsOpen = ! userDropDownIsOpen" x-bind:aria-expanded="userDropDownIsOpen"
                 x-on:keydown.space.prevent="openWithKeyboard = true"
@@ -98,7 +93,7 @@
                     </li>
                     <li>
                         <a href="#" onclick="logout(event)"
-                            class="block bg-neutral-50 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-neutral-900/5 hover:text-red-700 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-red-600 dark:hover:bg-neutral-50/5 dark:hover:text-red-500 dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">{{__('Logout')}}
+                            class="block bg-neutral-50 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-neutral-900/5 hover:text-red-700 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-red-600 dark:hover:bg-neutral-50/5 dark:hover:text-red-500 dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">{{ __('Logout') }}
                         </a>
                     </li>
                 @else
@@ -145,7 +140,8 @@
                 </div>
             </div>
         </li>
-        <li class="p-2"><a href="#" class="w-full text-lg font-bold text-black focus:underline dark:text-white"
+        <li class="p-2"><a href="#"
+                class="w-full text-lg font-bold text-black focus:underline dark:text-white"
                 aria-current="page">Products</a></li>
         <li class="p-2"><a href="#"
                 class="w-full text-lg font-medium text-neutral-600 focus:underline dark:text-neutral-300">Pricing</a>
@@ -154,11 +150,13 @@
                 class="w-full text-lg font-medium text-neutral-600 focus:underline dark:text-neutral-300">Blog</a>
         </li>
         <hr role="none" class="my-2 border-outline dark:border-neutral-700">
-        <li class="p-2"><a href="#" class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Dashboard</a>
+        <li class="p-2"><a href="#"
+                class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Dashboard</a>
         </li>
         <li class="p-2"><a href="#"
                 class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Subscription</a></li>
-        <li class="p-2"><a href="#" class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Settings</a>
+        <li class="p-2"><a href="#"
+                class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Settings</a>
         </li>
         <!-- CTA Button -->
         <li class="mt-4 w-full border-none">
@@ -168,10 +166,10 @@
         </li>
     </ul>
 </nav>
-<div x-data="{ show: false, screenHeight: 0 }" x-init="screenHeight = window.innerHeight / 8"
-    x-on:scroll.window="show = window.pageYOffset >= screenHeight" class="fixed bottom-8 right-8">
+<div x-data="{ show: false, screenHeight: 0 }" x-init="screenHeight = window.innerHeight / 8" x-on:scroll.window="show = window.pageYOffset >= screenHeight"
+    class="fixed bottom-8 right-8">
     <button x-show="show" x-transition x-on:click="window.scrollTo({top: 0, behavior: 'smooth'})"
-        class="shadow-lg {{site('bg-linear-to-b')}} p-2 rounded-full">
+        class="shadow-lg {{ site('bg-linear-to-b') }} p-2 rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
             <path class="fill-black dark:fill-white"
                 d="m11 7.825l-4.9 4.9q-.3.3-.7.288t-.7-.313q-.275-.3-.288-.7t.288-.7l6.6-6.6q.15-.15.325-.212T12 4.425q.2 0 .375.063t.325.212l6.6 6.6q.275.275.275.688t-.275.712q-.3.3-.713.3t-.712-.3L13 7.825V19q0 .425-.288.713T12 20q-.425 0-.713-.288T11 19V7.825Z" />
@@ -179,52 +177,88 @@
     </button>
 </div>
 
+@auth
+    <script>
+        function toggleTheme() {
+            $.ajax({
+                url: "{{ route('settings.toggleTheme') }}",
+                type: "POST",
+                data: {
+                    _method: 'POST',
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('Tema cambiado a:', response);
+                    if (response.theme) {
+                        document.documentElement.setAttribute('data-theme', response.theme);
 
-<script>
-    function toggleTheme() {
-        $.ajax({
-            url: "{{ route('settings.toggleTheme') }}",
-            type: "POST",
-            data: {
-                _method: 'POST',
-                _token: '{{ csrf_token() }}'
-            },
-            success: function (response) {
-                console.log('Tema cambiado a:', response);
-                if (response.theme) {
-                    document.documentElement.setAttribute('data-theme', response.theme);
-
-                    if (response.theme === 'dark') {
-                        $('.light-icon').addClass('hidden');
-                        $('.dark-icon').removeClass('hidden');
-                    } else {
-                        $('.dark-icon').addClass('hidden');
-                        $('.light-icon').removeClass('hidden');
+                        if (response.theme === 'dark') {
+                            $('.light-icon').addClass('hidden');
+                            $('.dark-icon').removeClass('hidden');
+                        } else {
+                            $('.dark-icon').addClass('hidden');
+                            $('.light-icon').removeClass('hidden');
+                        }
                     }
+                },
+                error: function() {
+                    console.error('Error al cambiar tema');
+                },
+                complete: function() {
+                    console.log('La petición ha terminado');
                 }
-            },
-            error: function () {
-                console.error('Error al cambiar tema');
-            },
-            complete: function () {
-                console.log('La petición ha terminado');
-            }
-        });
-    }
+            });
+        }
 
-    function logout(e) {
-        e.preventDefault();
+        function logout(e) {
+            e.preventDefault();
 
-        $.ajax({
-            url: "{{ route('auth.logout') }}",
-            type: "POST",
-            data: {
-                _method: 'DELETE',
-                _token: '{{ csrf_token() }}'
-            },
-            error: function () {
-                console.error('Error al cerrar sesión');
+            $.ajax({
+                url: "{{ route('auth.logout') }}",
+                type: "POST",
+                data: {
+                    _method: 'DELETE',
+                    _token: '{{ csrf_token() }}'
+                },
+                error: function() {
+                    console.error('Error al cerrar sesión');
+                }
+            });
+        }
+    </script>
+@else
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+
+        console.log('Tema aplicado:', theme);
+
+        document.documentElement.setAttribute('data-theme', theme);
+
+        if (theme === 'dark') {
+            $('.light-icon').addClass('hidden');
+            $('.dark-icon').removeClass('hidden');
+        } else {
+            $('.dark-icon').addClass('hidden');
+            $('.light-icon').removeClass('hidden');
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+
+            if (newTheme === 'dark') {
+                $('.light-icon').addClass('hidden');
+                $('.dark-icon').removeClass('hidden');
+            } else {
+                $('.dark-icon').addClass('hidden');
+                $('.light-icon').removeClass('hidden');
             }
-        });
-    }
-</script>
+
+            localStorage.setItem('theme', newTheme);
+        }
+    </script>
+@endauth
