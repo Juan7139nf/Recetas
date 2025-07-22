@@ -28,8 +28,9 @@ class RecetasBrowser extends Component
 
         return view('bread.browser', [
             'items' => $recipes,
-            'columns' => ['title', 'price', 'license'],
+            'columns' => ['image','title', 'price', 'license'],
             'model' => 'admin.product.recipe.',
+            'table' => 'Recetas',
         ])
             ->layout('layouts.admin', [
                     'title' => __('auth.register_step1'),

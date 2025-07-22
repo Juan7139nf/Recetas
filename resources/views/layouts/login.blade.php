@@ -16,6 +16,23 @@
 
     @livewireScripts
 
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+
+        console.log('Tema aplicado:', theme);
+
+        document.documentElement.setAttribute('data-theme', theme);
+
+        if (theme === 'dark') {
+            $('.light-icon').addClass('hidden');
+            $('.dark-icon').removeClass('hidden');
+        } else {
+            $('.dark-icon').addClass('hidden');
+            $('.light-icon').removeClass('hidden');
+        }
+    </script>
 </head>
 
 <body class="{{ site('background', 'bg-neutral-50 dark:bg-neutral-900') }}">
@@ -23,7 +40,7 @@
         <div
             class="h-screen relative bg-[url({{ asset('assets/img/site/login.webp') }})] bg-cover bg-center  bg-object-cover">
             <div
-                class="backdrop-blur-sm h-[100%] w-[100%] bg-linear-to-tr from-transparent from-50% to-white/50 dark:to-black/80">
+                class="backdrop-blur-sm h-full w-full bg-linear-to-tr from-transparent from-30% to-white/50 dark:to-black/90">
             </div>
         </div>
         <div class="absolute inset-0 z-10 overflow-y-auto">

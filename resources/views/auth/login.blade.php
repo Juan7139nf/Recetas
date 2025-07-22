@@ -1,21 +1,22 @@
-<form wire:submit.prevent="authenticate" class="w-[100%] sm:w-120 min-h-screen mx-auto space-y-6 p-8 bg-white/80 shadow-lg rounded-lg"
+<form wire:submit.prevent="authenticate"
+    class="w-[100%] sm:w-120 min-h-screen mx-auto sm:mx-0 py-15 space-y-10 p-8 bg-white/80 dark:bg-black/50 shadow-lg absolute right-0"
     x-data="{ showPassword: false }">
 
-    <h2 class="text-2xl font-bold text-center text-gray-800">Iniciar Sesión</h2>
+    <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-gray-50">Iniciar Sesión</h2>
 
     {{-- Usuario o Email --}}
     <div>
-        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Usuario o Email</label>
+        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-100 mb-1">Usuario o
+            Email</label>
         <div class="relative">
             <span class="absolute left-3 top-2.5 text-gray-400">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M5.121 17.804A11.955 11.955 0 0112 15c2.45 0 4.713.744 6.879 2.016M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
             </span>
             <input type="text" id="name" wire:model.defer="name"
-                class="pl-10 pr-3 py-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-400"
+                class="pl-10 pr-3 py-2 block w-full border border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-400 dark:text-white"
                 placeholder="Ingresa tu usuario o email" />
         </div>
         @error('name')
@@ -25,16 +26,22 @@
 
     {{-- Contraseña --}}
     <div>
-        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-100 mb-1">Contraseña</label>
         <div class="relative">
             <input :type="showPassword ? 'text' : 'password'" id="password" wire:model.defer="password"
-                class="pl-3 pr-10 py-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-400"
+                class="pl-3 pr-10 py-2 block w-full border border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-400 dark:text-white"
                 placeholder="********" />
             <button type="button" @click="showPassword = !showPassword"
                 class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 focus:outline-none" tabindex="-1"
                 aria-label="Mostrar u ocultar contraseña">
                 <!-- Icono ojo cerrado -->
-                <svg x-show="!showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                <svg x-show="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="1.5" class="w-5 h-5 eye-icon eye-closed">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                </svg>
+                <!-- Icono ojo abierto -->
+                <svg x-show="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -42,16 +49,6 @@
                            c4.478 0 8.268 2.943 9.542 7
                            -1.274 4.057-5.064 7-9.542 7
                            -4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                <!-- Icono ojo abierto -->
-                <svg x-show="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19
-                           c-4.478 0-8.268-2.943-9.542-7
-                           a10.04 10.04 0 013.057-4.472M15 12
-                           a3 3 0 00-3-3m0 0a3 3 0 00-3 3
-                           m6 0a3 3 0 01-3 3m-3 0a3 3 0 013-3
-                           m0-3l7 7m-14 0l7-7" />
                 </svg>
             </button>
         </div>
@@ -62,28 +59,52 @@
 
     {{-- Recordarme --}}
     <div class="flex items-center justify-between">
-        <label class="inline-flex items-center text-sm text-gray-700">
-            <input type="checkbox" wire:model="remember" class="h-4 w-4 text-blue-600 border-gray-300 rounded" />
+        <label class="inline-flex items-center text-sm text-gray-700 dark:text-gray-100">
+            <input type="checkbox" wire:model="remember" class="h-4 w-4 accent-emerald-500 border-gray-300 rounded" />
             <span class="ml-2">Recordarme</span>
         </label>
-        <a href="#" class="text-sm text-blue-600 hover:underline">¿Olvidaste tu contraseña?</a>
+        <a href="#" class="text-sm text-emerald-400 hover:underline">¿Olvidaste tu contraseña?</a>
     </div>
 
     {{-- Botón de Envío --}}
     <div>
-        <button type="submit"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md font-semibold transition duration-200 ease-in-out flex justify-center items-center">
-            <svg wire:loading wire:target="authenticate" class="animate-spin h-5 w-5 mr-2 text-white"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+        <button type="submit" class="w-full {{ site('btn.primary') }}">
+            <span wire:target="authenticate">Iniciar Sesión</span>
+            <svg wire:loading wire:target="authenticate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                aria-hidden="true" class="size-5 motion-safe:animate-spin fill-white ml-1">
+                <path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25" />
+                <path
+                    d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" />
             </svg>
-            <span wire:loading.remove wire:target="authenticate">Iniciar Sesión</span>
         </button>
     </div>
 
     @error('error')
-        <p class="text-red-600 text-sm text-center mt-4">{{ $message }}</p>
+        <div x-data="{ alertIsVisible: true }" x-show="alertIsVisible"
+            class="relative w-full overflow-hidden rounded-sm border border-red-500 bg-white text-neutral-600 dark:bg-neutral-950 dark:text-neutral-300"
+            role="alert" x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
+            <div class="flex w-full items-center gap-2 bg-red-500/10 p-4">
+                <div class="bg-red-500/15 text-red-500 rounded-full p-1" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6"
+                        aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-2">
+                    <h3 class="text-sm font-semibold text-red-500">{{ $message }}</h3>
+                    <p class="text-xs font-medium sm:text-sm">The email address you entered is invalid. Please try again.
+                    </p>
+                </div>
+                <button type="button" @click="alertIsVisible = false" class="ml-auto" aria-label="dismiss alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor"
+                        fill="none" stroke-width="2.5" class="w-4 h-4 shrink-0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
     @enderror
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus illo reiciendis amet quos voluptatem id voluptatum eum magni minus repellendus soluta sed ex animi voluptate tenetur, quasi ut accusamus ipsam illum ad odio? Ratione quia id sequi omnis obcaecati illo modi aperiam voluptatem facere debitis architecto, tempore dignissimos, amet doloremque nulla beatae quas mollitia! Iste dolores, dolorem harum modi similique doloribus quae ipsam atque ipsum, aliquid alias totam esse. Asperiores accusantium tenetur incidunt eligendi iure. Dolorem ab aut nisi officiis fugiat, dolores labore quo placeat amet, modi soluta itaque iste hic, aliquid molestias doloremque harum culpa! Ipsam ratione minus expedita aperiam sit. Similique quis molestiae nam fugiat, libero cum nesciunt vitae magni suscipit. Repudiandae eligendi a culpa doloribus esse minima veritatis quisquam numquam voluptate soluta quasi debitis, necessitatibus rem ad ut pariatur aliquam autem officia dolore placeat corrupti aut voluptatem! Ea nihil facere voluptatibus id? Fugiat nobis ducimus ipsum unde nisi voluptatibus vero quasi voluptate possimus nulla temporibus architecto voluptas ea vitae quae hic magni nemo, cum consequatur. Autem fugiat sapiente aliquam doloremque voluptatum rem molestiae voluptate maxime mollitia similique minima nam voluptates eveniet incidunt, nobis vitae alias veritatis, sunt maiores dolores pariatur debitis ipsum ullam? Sit culpa accusamus provident iure, commodi nobis non quibusdam aspernatur voluptatibus dolores iste consequuntur ipsum ab iusto deleniti pariatur accusantium tempora corrupti error, quos laborum mollitia odit aliquam! Officia labore rerum explicabo aliquid nemo, ullam omnis consequuntur assumenda doloremque accusamus distinctio laboriosam possimus, vitae sit quis eum nihil at est. Sit expedita, consectetur soluta nostrum laborum ab numquam aut impedit beatae magnam cupiditate eos neque suscipit fugit necessitatibus voluptatem assumenda! Exercitationem ratione, animi eum, reprehenderit, autem amet odit quibusdam mollitia sit dignissimos cumque eligendi sapiente dolor maiores a. Ex dolor in aut at voluptas! Vero quaerat tempora aperiam dolor vel. Omnis, nulla officiis est nobis voluptate quia explicabo corrupti fugit adipisci. Aliquid consequatur maxime repudiandae rerum expedita aut fuga aliquam accusantium, dolorum atque, nemo quasi adipisci veniam odio dolorem eum. Perspiciatis facilis in molestias dolores soluta aut alias amet cumque praesentium aperiam id enim impedit, doloribus numquam illum fugit et laudantium delectus repellendus similique reiciendis corrupti! Eaque quo pariatur temporibus vero ratione quod rem at reiciendis ducimus aut, nemo adipisci harum dicta provident. Corrupti, perspiciatis inventore? Veniam delectus, deleniti consectetur repellendus, numquam nesciunt autem enim architecto dolorum quaerat exercitationem animi nulla impedit blanditiis cum dolores illum voluptas. Aliquam, ullam magni! Consequuntur dolorum veniam vero.
 </form>
