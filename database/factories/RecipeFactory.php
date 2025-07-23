@@ -24,7 +24,7 @@ class RecipeFactory extends Factory
             'title' => $this->faker->sentence(3),
             'gif_path' => $this->faker->boolean(50) ? $this->faker->imageUrl() : null,
             'image' => [['url' => $this->faker->imageUrl(600, 400)]],
-            'cover' => [['url' => $this->faker->imageUrl(800, 300)]],
+            'cover' => ['url' => $this->faker->imageUrl(800, 300)],
             'price' => $this->faker->randomFloat(2, 0, 20),
             'license' => $this->faker->randomElement(['public_domain', 'creative_commons']),
             'settings' => [

@@ -14,7 +14,7 @@ class RecetasAdd extends Component
     public $title;
     public $gif_path;
     public $images = [];
-    public $cover = [];
+    public $cover;
     public $price;
     public $license = 'public_domain';
     public $difficulty = 'easy';
@@ -27,7 +27,7 @@ class RecetasAdd extends Component
             'price' => 'nullable|numeric',
             'license' => 'required|string',
             'gif_path' => 'nullable|string|max:255',
-            'cover.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'cover' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'difficulty' => 'required|string',
             'duration_minutes' => 'required|integer',
@@ -38,9 +38,7 @@ class RecetasAdd extends Component
             return ['url' => $img->store('site/recipes/images', 'public')];
         })->toArray();
 
-        $covers = collect($this->cover)->map(function ($img) {
-            return ['url' => $img->store('site/recipes/covers', 'public')];
-        })->toArray();
+        $covers = ['url' => $this->cover->store('site/recipes/covers', 'public')];
 
         Recipe::create([
             'user_id' => Auth::id(),
@@ -59,6 +57,7 @@ class RecetasAdd extends Component
         return redirect()->route('admin.product.recipe.browser');
     }
 
+    // Quitar imagen nueva que se agregó pero no se subió aún
     public function removeImage($index)
     {
         if (isset($this->images[$index])) {

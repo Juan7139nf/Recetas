@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('recipe_parts', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('recipe_id')->constrained()->onDelete('cascade');
+            $table->string('display')->nullable();
             $table->text('ingredients')->nullable();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->unsignedBigInteger('order')->default(1);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
