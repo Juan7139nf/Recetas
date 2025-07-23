@@ -34,7 +34,7 @@ class UserFactory extends Factory
             'password' => Hash::make('password'),
             'phone' => $this->faker->phoneNumber(),
             'birthdate' => $this->faker->date('Y-m-d', '2005-01-01'),
-            'cover' => ['url' => $this->faker->imageUrl(800, 200)],
+            'image' => ['url' => $this->faker->imageUrl(800, 200)],
             'avatar' => ['url' => $this->faker->imageUrl(100, 100)],
             'settings' => [
                 'language' => Arr::random(['es', 'en']),

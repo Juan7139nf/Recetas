@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('password')->nullable();
             $table->string('phone')->nullable();
             $table->date('birthdate')->nullable();
-            $table->json('cover')->nullable();
+            $table->json('image')->nullable();
             $table->json('avatar')->nullable();
             $table->json('settings')->nullable();
             $table->text('body')->nullable();

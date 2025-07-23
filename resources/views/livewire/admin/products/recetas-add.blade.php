@@ -28,7 +28,7 @@
                     Crear</li>
             </ol>
         </nav>
-        <a href="{{ route('admin.product.recipe.browser') }}" class="{{site('btn.gray')}} relative">
+        <a href="{{ route('admin.product.recipe.browser') }}" class="{{ site('btn.gray') }} relative">
             <svg class="absolute w-10 left-1.5" focusable="false" aria-hidden="true" viewBox="0 0 24 24">
                 <path class="fill-white"
                     d="M7 7.56c0-.94-1.14-1.42-1.81-.75L.71 11.29c-.39.39-.39 1.02 0 1.41l4.48 4.48c.67.68 1.81.2 1.81-.74 0-.28-.11-.55-.31-.75L3 12l3.69-3.69c.2-.2.31-.47.31-.75M13 9V7.41c0-.89-1.08-1.34-1.71-.71L6.7 11.29c-.39.39-.39 1.02 0 1.41l4.59 4.59c.63.63 1.71.18 1.71-.71V14.9c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11">
@@ -38,14 +38,16 @@
         </a>
     </div>
 
-    <div class="max-w-xl mx-auto mt-10 p-6 bg-white shadow rounded" wire:submit.prevent="save">
+    <div class="max-w-xl mx-auto mt-10 p-6 bg-white shadow rounded">
         <form wire:submit.prevent="save" enctype="multipart/form-data">
             <h2 class="text-xl font-bold mb-4">Crear Receta</h2>
 
             <div class="mb-4">
                 <label class="block">Título</label>
                 <input type="text" wire:model="title" class="w-full border px-3 py-2 rounded">
-                @error('title') <span class="text-red-500">{{ $message }}</span> @enderror
+                @error('title')
+                    <span class="text-red-500">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="mb-4">
@@ -78,28 +80,100 @@
             </div>
 
             <div class="mb-4">
-                <label class="block">Imágenes</label>
-                <input type="file" wire:model="image" multiple>
-                @if ($image)
-                    <p>Vista previa:</p>
-                    @foreach ($image as $img)
-                        <img src="{{ $img->temporaryUrl() }}" width="100" class="inline-block mr-2 mb-2">
-                    @endforeach
-                @endif
+                <label class="block">Portada</label>
+                <div x-data="{
+                    isDragging: false,
+                    previewUrl: null,
+                    handleDrop(event) {
+                        this.isDragging = false;
+                        const file = event.dataTransfer.files[0];
+                        if (file && file.type.startsWith('image/')) {
+                            this.previewUrl = URL.createObjectURL(file);
+                            $refs.fileInput.files = event.dataTransfer.files;
+                            $refs.fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                    }
+                }" x-on:dragover.prevent="isDragging = true"
+                    x-on:dragleave.prevent="isDragging = false" x-on:drop.prevent="handleDrop($event)"
+                    class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer transition-all"
+                    :class="{ 'border-blue-500 bg-blue-50': isDragging }" @click="$refs.fileInput.click()">
+                    <input type="file" wire:model="cover" x-ref="fileInput" class="hidden" accept="image/*"
+                        @change="previewUrl = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : null">
+
+                    <template x-if="!previewUrl">
+                        <p class="text-gray-500">Haz clic o arrastra una imagen aquí</p>
+                    </template>
+
+                    <template x-if="previewUrl">
+                        <img :src="previewUrl" class="mx-auto mt-4 max-h-48 rounded shadow">
+                    </template>
+                </div>
+
+                @error('cover')
+                    <span class="text-red-500 text-sm mt-2 block">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="mb-4">
-                <label class="block">Portadas</label>
-                <input type="file" wire:model="cover" multiple>
-                @if ($cover)
-                    <p>Vista previa:</p>
-                    @foreach ($cover as $img)
-                        <img src="{{ $img->temporaryUrl() }}" width="100" class="inline-block mr-2 mb-2">
-                    @endforeach
-                @endif
+                <label class="block">Imágenes</label>
+                <div x-data="{
+                    isDragging: false,
+                    previews: [],
+                    handleDrop(event) {
+                        this.isDragging = false;
+                        const files = Array.from(event.dataTransfer.files);
+                        this.addFiles(files);
+                    },
+                    handleInputChange(event) {
+                        const files = Array.from(event.target.files);
+                        this.addFiles(files);
+                    },
+                    addFiles(files) {
+                        this.previews = []; // Reiniciar para evitar acumulación
+                        files.forEach(file => {
+                            if (file.type.startsWith('image/')) {
+                                this.previews.push({
+                                    file: file,
+                                    url: URL.createObjectURL(file)
+                                });
+                            }
+                        });
+                
+                        const dt = new DataTransfer();
+                        this.previews.forEach(p => dt.items.add(p.file));
+                        $refs.fileInput.files = dt.files;
+                        $refs.fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                }" x-on:dragover.prevent="isDragging = true"
+                    x-on:dragleave.prevent="isDragging = false" x-on:drop.prevent="handleDrop($event)"
+                    class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer transition-all"
+                    :class="{ 'border-blue-500 bg-blue-50': isDragging }" @click="$refs.fileInput.click()">
+
+                    <input type="file" wire:model="images" x-ref="fileInput" class="hidden" accept="image/*"
+                        multiple @change="handleInputChange($event)">
+
+                    <template x-if="previews.length === 0">
+                        <p class="text-gray-500">Haz clic o arrastra imágenes aquí</p>
+                    </template>
+
+                    <template x-if="previews.length > 0">
+                        <div class="flex flex-wrap justify-center gap-4 mt-4">
+                            <template x-for="(image, index) in previews" :key="index">
+                                <div class="relative w-24 h-24">
+                                    <img :src="image.url" class="object-cover w-full h-full rounded shadow">
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                @error('images.*')
+                    <span class="text-red-500 text-sm mt-2 block">{{ $message }}</span>
+                @enderror
             </div>
 
-            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            <button type="submit" wire:loading.attr="disabled"
+                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                 Guardar Receta
             </button>
 

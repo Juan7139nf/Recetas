@@ -13,7 +13,7 @@ class RecetasAdd extends Component
 
     public $title;
     public $gif_path;
-    public $image = [];
+    public $images = [];
     public $cover = [];
     public $price;
     public $license = 'public_domain';
@@ -27,14 +27,14 @@ class RecetasAdd extends Component
             'price' => 'nullable|numeric',
             'license' => 'required|string',
             'gif_path' => 'nullable|string|max:255',
-            'image.*' => 'nullable|image|max:2048',
-            'cover.*' => 'nullable|image|max:2048',
+            'cover.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'difficulty' => 'required|string',
             'duration_minutes' => 'required|integer',
         ]);
 
         // Simulamos subir imágenes (aquí deberías guardar en el disco si quieres)
-        $images = collect($this->image)->map(function ($img) {
+        $images = collect($this->images)->map(function ($img) {
             return ['url' => $img->store('site/recipes/images', 'public')];
         })->toArray();
 
@@ -58,7 +58,14 @@ class RecetasAdd extends Component
 
         return redirect()->route('admin.product.recipe.browser');
     }
-    
+
+    public function removeImage($index)
+    {
+        if (isset($this->images[$index])) {
+            array_splice($this->images, $index, 1);
+        }
+    }
+
     public function render()
     {
         return view('livewire.admin.products.recetas-add')

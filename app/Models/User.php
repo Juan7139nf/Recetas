@@ -31,7 +31,7 @@ class User extends Authenticatable
         'google_id',
         'phone',
         'birthdate',
-        'cover',
+        'image',
         'avatar',
         'settings',
         'body',
@@ -58,7 +58,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'settings' => 'array',
-            'cover' => 'array',
+            'image' => 'array',
             'avatar' => 'array',
             'birthdate' => 'date',
         ];

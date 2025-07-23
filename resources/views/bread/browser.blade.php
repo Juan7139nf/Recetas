@@ -19,13 +19,13 @@
                         </svg>
                     </li>
                     <li class="flex items-center gap-1 font-bold text-neutral-900 dark:text-white" aria-current="page">
-                        {{$table}}
+                        {{ $table }}
                     </li>
                 </ol>
             </nav>
         </div>
 
-        <a href="{{ route($model . 'add') }}" class="{{site('btn.primary')}} relative">
+        <a href="{{ route($model . 'add') }}" class="{{ site('btn.primary') }} relative">
             <svg class="absolute w-8 left-2" focusable="false" aria-hidden="true" viewBox="0 0 24 24">
                 <path class="fill-white"
                     d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m5 11h-4v4h-2v-4H7v-2h4V7h2v4h4z">
@@ -41,7 +41,7 @@
                 class="border-b border-neutral-300 bg-neutral-50 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white">
                 <tr>
                     @foreach ($columns as $col)
-                        @if ($col != 'image')
+                        @if ($col != 'cover')
                             <th scope="col" class="p-4">{{ ucfirst(str_replace('_', ' ', $col)) }}</th>
                         @endif
                     @endforeach
@@ -52,18 +52,27 @@
                 @forelse ($items as $item)
                     <tr>
                         @foreach ($columns as $col)
-                            <td class="p-4">
-                                @php $valor = data_get($item, $col); @endphp
-
-                                @if ($col === 'image' && is_array($valor) && isset($valor[0]['url']))
-                                    <img src="{{ asset('storage/' . $valor[0]['url']) }}" width="60">
-                                @elseif (is_array($valor))
-                                    {{ json_encode($valor) }}
-                                @else
-                                    {{ $valor }}
-                                @endif
-                            </td>
+                            @if ($col != 'title')
+                                <td class="p-4">
+                                    @php $valor = data_get($item, $col); @endphp
+                                    @if ($col === 'cover' && is_array($valor) && isset($valor[0]['url']))
+                                        <div class="flex w-max items-center gap-2">
+                                            <img class="size-10 rounded-full object-cover"
+                                                src="{{ asset('storage/' . $valor[0]['url']) }}" alt="img">
+                                            <div class="flex flex-col">
+                                                <span
+                                                    class="text-neutral-900 dark:text-white">{{ $item->title ?? 'Sin título' }}</span>
+                                            </div>
+                                        </div>
+                                    @elseif (is_array($valor))
+                                        {{ json_encode($valor) }}
+                                    @else
+                                        {{ $valor }}
+                                    @endif
+                                </td>
+                            @endif
                         @endforeach
+
 
                         <td class="p-4">
                             <button type="button"
