@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Products;
 
 use App\Models\Recipe;
+use App\Models\RecipePart;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -92,15 +93,27 @@ class RecetasEdit extends Component
             ],
         ]);
 
-        $recipe->parts()->delete();
-
         foreach ($this->parts as $index => $part) {
-            $recipe->parts()->create([
-                'display' => $part['display'],
-                'ingredients' => $part['ingredients'],
-                'description' => $part['description'],
-                'order' => $index,
-            ]);
+            if (isset($part['id'])) {
+                // Parte existente → actualizar
+                $existingPart = $recipe->parts()->find($part['id']);
+                if ($existingPart) {
+                    $existingPart->update([
+                        'display' => $part['display'] ?? null,
+                        'ingredients' => $part['ingredients'] ?? null,
+                        'description' => $part['description'] ?? null,
+                        'order' => $index,
+                    ]);
+                }
+            } else {
+                // Parte nueva → crear
+                $recipe->parts()->create([
+                    'display' => $part['display'] ?? null,
+                    'ingredients' => $part['ingredients'] ?? null,
+                    'description' => $part['description'] ?? null,
+                    'order' => $index,
+                ]);
+            }
         }
 
         return redirect()->route('admin.product.recipe.browser');
@@ -123,51 +136,29 @@ class RecetasEdit extends Component
 
     public function addPart()
     {
-        $this->parts[] = [
-            'id' => null,
-            'display' => '',
-            'ingredients' => '',
-            'description' => '',
+        $part = RecipePart::create([
+            'recipe_id' => $this->recipeId,
+            'display' => null,
+            'ingredients' => null,
+            'description' => null,
             'order' => count($this->parts),
-        ];
-        return redirect(request()->header('Referer'));
+        ]);
+
+        $this->parts[] = $part->toArray();
     }
 
-    public function removePart($index)
+    public function deletePart($id)
     {
-        unset($this->parts[$index]);
-        $this->parts = array_values($this->parts); // Reindexar
-
-        foreach ($this->parts as $i => &$part) {
-            $part['order'] = $i;
+        if ($id) {
+            $part = RecipePart::find($id);
+            if ($part) {
+                $part->delete();
+            }
         }
 
-        $this->dispatch('$refresh');
+        $this->parts = array_filter($this->parts, fn($p) => $p['id'] !== $id);
+        $this->parts = array_values($this->parts);
     }
-
-    public function movePartUp($index)
-    {
-        if ($index > 0) {
-            $temp = $this->parts[$index];
-            $this->parts[$index] = $this->parts[$index - 1];
-            $this->parts[$index - 1] = $temp;
-        }
-
-        return redirect(request()->header('Referer'));
-    }
-
-
-    public function movePartDown($index)
-    {
-        if ($index < count($this->parts) - 1) {
-            $temp = $this->parts[$index];
-            $this->parts[$index] = $this->parts[$index + 1];
-            $this->parts[$index + 1] = $temp;
-        }
-
-        return redirect(request()->header('Referer'));
-    }
-
 
     public function render()
     {

@@ -48,7 +48,9 @@
             <div class="mb-4">
                 <label class="block">Título</label>
                 <input type="text" wire:model="title" class="w-full border px-3 py-2 rounded">
-                @error('title') <span class="text-red-500">{{ $message }}</span> @enderror
+                @error('title')
+                    <span class="text-red-500">{{ $message }}</span>
+                @enderror
             </div>
 
             {{-- GIF (opcional) --}}
@@ -100,8 +102,8 @@
                             $refs.fileInput.dispatchEvent(new Event('change', { bubbles: true }));
                         }
                     }
-                }" x-on:dragover.prevent="isDragging = true" x-on:dragleave.prevent="isDragging = false"
-                    x-on:drop.prevent="handleDrop($event)"
+                }" x-on:dragover.prevent="isDragging = true"
+                    x-on:dragleave.prevent="isDragging = false" x-on:drop.prevent="handleDrop($event)"
                     class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer transition-all"
                     :class="{ 'border-blue-500 bg-blue-50': isDragging }" @click="$refs.fileInput.click()">
                     <input type="file" wire:model="cover" x-ref="fileInput" class="hidden" accept="image/*"
@@ -122,7 +124,9 @@
                         <img :src="previewUrl" class="mx-auto mt-4 max-h-48 rounded shadow">
                     </template>
                 </div>
-                @error('cover') <span class="text-red-500 text-sm mt-2 block">{{ $message }}</span> @enderror
+                @error('cover')
+                    <span class="text-red-500 text-sm mt-2 block">{{ $message }}</span>
+                @enderror
             </div>
 
             {{-- Imágenes --}}
@@ -138,8 +142,10 @@
                             @endphp
                             @if ($url)
                                 <div class="relative w-24 h-24">
-                                    <img src="{{ asset('storage/' . $url) }}" class="object-cover w-full h-full rounded shadow">
-                                    <button type="button" wire:click.prevent="removeExistingImage({{ $index }})"
+                                    <img src="{{ asset('storage/' . $url) }}"
+                                        class="object-cover w-full h-full rounded shadow">
+                                    <button type="button"
+                                        wire:click.prevent="removeExistingImage({{ $index }})"
                                         class="absolute top-0 right-0 bg-red-600 text-white rounded-full px-1.5 hover:bg-red-800">×
                                     </button>
                                 </div>
@@ -176,13 +182,13 @@
                         $refs.fileInput.files = dt.files;
                         $refs.fileInput.dispatchEvent(new Event('change', { bubbles: true }));
                     }
-                }" x-on:dragover.prevent="isDragging = true" x-on:dragleave.prevent="isDragging = false"
-                    x-on:drop.prevent="handleDrop($event)"
+                }" x-on:dragover.prevent="isDragging = true"
+                    x-on:dragleave.prevent="isDragging = false" x-on:drop.prevent="handleDrop($event)"
                     class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer transition-all"
                     :class="{ 'border-blue-500 bg-blue-50': isDragging }" @click="$refs.fileInput.click()">
 
-                    <input type="file" wire:model="images" x-ref="fileInput" class="hidden" accept="image/*" multiple
-                        @change="handleInputChange($event)">
+                    <input type="file" wire:model="images" x-ref="fileInput" class="hidden" accept="image/*"
+                        multiple @change="handleInputChange($event)">
 
                     <template x-if="previews.length === 0">
                         <div>
@@ -201,7 +207,9 @@
                     </template>
                 </div>
 
-                @error('images.*') <span class="text-red-500 text-sm mt-2 block">{{ $message }}</span> @enderror
+                @error('images.*')
+                    <span class="text-red-500 text-sm mt-2 block">{{ $message }}</span>
+                @enderror
             </div>
 
             <button type="submit" wire:loading.attr="disabled"
@@ -226,16 +234,46 @@
                 const toolbarOptions = [
                     ['bold', 'italic', 'underline', 'strike'],
                     ['blockquote', 'code-block'],
-                    [{ 'header': 1 }, { 'header': 2 }],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    [{ 'script': 'sub' }, { 'script': 'super' }],
-                    [{ 'indent': '-1' }, { 'indent': '+1' }],
-                    [{ 'direction': 'rtl' }],
-                    [{ 'size': ['small', false, 'large', 'huge'] }],
-                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                    [{ 'color': [] }, { 'background': [] }],
-                    [{ 'font': [] }],
-                    [{ 'align': [] }],
+                    [{
+                        'header': 1
+                    }, {
+                        'header': 2
+                    }],
+                    [{
+                        'list': 'ordered'
+                    }, {
+                        'list': 'bullet'
+                    }],
+                    [{
+                        'script': 'sub'
+                    }, {
+                        'script': 'super'
+                    }],
+                    [{
+                        'indent': '-1'
+                    }, {
+                        'indent': '+1'
+                    }],
+                    [{
+                        'direction': 'rtl'
+                    }],
+                    [{
+                        'size': ['small', false, 'large', 'huge']
+                    }],
+                    [{
+                        'header': [1, 2, 3, 4, 5, 6, false]
+                    }],
+                    [{
+                        'color': []
+                    }, {
+                        'background': []
+                    }],
+                    [{
+                        'font': []
+                    }],
+                    [{
+                        'align': []
+                    }],
                     ['link', 'image', 'video'],
                     ['clean']
                 ];
@@ -274,98 +312,38 @@
 
             <h2 class="text-lg font-bold mb-4">Partes de la receta</h2>
 
-            <div class="space-y-6">
+            <!-- Incluye este script en el <head> o antes del cierre del <body> -->
+
+            <div>
                 @foreach ($parts as $index => $part)
-                    <div wire:key="part-{{ $index }}" class="border p-4 rounded bg-white shadow mb-4">
-                        <!-- Display -->
-                        <label class="font-semibold block mb-1">Título o Display</label>
-                        <input type="text" wire:model.defer="parts.{{ $index }}.display"
-                            class="w-full border rounded px-3 py-2 mb-4" placeholder="Nombre de la sección o título" />
-
-                        <!-- Ingredientes -->
-                        <label class="font-semibold block mb-1">Ingredientes</label>
-                        <div wire:ignore>
-                            <div id="ingredients-editor-{{ $index }}" class="quill-editor border rounded mb-2"
-                                style="min-height: 120px;">
-                                {!! $part['ingredients'] !!}
-                            </div>
+                    <div wire:key="part-{{ $index }}" class="mb-4 border p-4 rounded bg-gray-100">
+                        <div class="flex justify-between">
+                            <strong>Parte {{ $index + 1 }}</strong>
+                            <button type="button" wire:click="deletePart('{{ $part['id'] }}')"
+                                class="text-red-600">🗑️</button>
                         </div>
-                        <input type="hidden" wire:model="parts.{{ $index }}.ingredients"
-                            id="ingredients-input-{{ $index }}">
 
-                        <!-- Descripción -->
-                        <label class="font-semibold block mt-4 mb-1">Descripción</label>
-                        <div wire:ignore>
-                            <div id="description-editor-{{ $index }}" class="quill-editor border rounded mb-2"
-                                style="min-height: 120px;">
-                                {!! $part['description'] !!}
-                            </div>
-                        </div>
-                        <input type="hidden" wire:model="parts.{{ $index }}.description"
-                            id="description-input-{{ $index }}">
+                        <label>Display</label>
+                        <input type="text" wire:model="parts.{{ $index }}.display"
+                            class="w-full border px-3 py-2 rounded">
 
-                        <!-- Botones -->
-                        <div class="mt-4 flex justify-end gap-2">
-                            <button type="button" wire:click="movePartUp({{ $index }})">🔼</button>
-                            <button type="button" wire:click="movePartDown({{ $index }})">🔽</button>
-                            <button type="button" wire:click="removePart({{ $index }})" class="text-red-600">❌</button>
-                        </div>
+                        <label>Ingredientes</label>
+                        <textarea id="ingredients-{{ $index }}" wire:ignore wire:model.lazy="parts.{{ $index }}.ingredients"
+                            class="editor w-full h-32">
+                            {{ $part['ingredients'] }}
+                        </textarea>
+
+                        <label class="mt-2">Descripción</label>
+                        <textarea id="description-{{ $index }}" wire:ignore wire:model.lazy="parts.{{ $index }}.description"
+                            class="editor w-full h-32">
+                            {{ $part['description'] }}
+                        </textarea>
                     </div>
-                    <script>
-                        const toolbarOptions = [
-                            ['bold', 'italic', 'underline', 'strike'],
-                            ['blockquote', 'code-block'],
-                            [{ 'header': 1 }, { 'header': 2 }],
-                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                            [{ 'script': 'sub' }, { 'script': 'super' }],
-                            [{ 'indent': '-1' }, { 'indent': '+1' }],
-                            [{ 'direction': 'rtl' }],
-                            [{ 'size': ['small', false, 'large', 'huge'] }],
-                            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                            [{ 'color': [] }, { 'background': [] }],
-                            [{ 'font': [] }],
-                            [{ 'align': [] }],
-                            ['link', 'image', 'video'],
-                            ['clean']
-                        ];
-
-                        function initQuillEditors() {
-                            document.querySelectorAll('.quill-editor').forEach(function (editorDiv) {
-                                if (!editorDiv.classList.contains('ql-container')) {
-                                    const inputId = editorDiv.id.replace('editor', 'input');
-                                    const quill = new Quill(editorDiv, {
-                                        modules: { syntax: true, toolbar: toolbarOptions },
-                                        theme: 'snow'
-                                    });
-
-                                    quill.on('text-change', function () {
-                                        const input = document.getElementById(inputId);
-                                        if (input) {
-                                            input.value = quill.root.innerHTML;
-                                            input.dispatchEvent(new Event('input'));
-                                        }
-                                    });
-                                }
-                            });
-                        }
-
-                        document.addEventListener("DOMContentLoaded", function () {
-                            initQuillEditors();
-                        });
-
-                        document.addEventListener("livewire:load", () => {
-                            Livewire.hook('message.processed', () => {
-                                initQuillEditors();
-                            });
-                        });
-                    </script>
                 @endforeach
-            </div>
 
-            <button type="button" wire:click="addPart"
-                class="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                Añadir Parte
-            </button>
+                <button type="button" wire:click="addPart" class="bg-green-600 text-white px-4 py-2 rounded">➕
+                    Añadir Parte</button>
+            </div>
 
         </form>
     </div>
