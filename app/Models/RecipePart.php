@@ -30,7 +30,7 @@ class RecipePart extends Model
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
-    }
+    }   
 
     public function recipe()
     {

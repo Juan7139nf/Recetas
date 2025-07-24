@@ -102,8 +102,8 @@
                             $refs.fileInput.dispatchEvent(new Event('change', { bubbles: true }));
                         }
                     }
-                }" x-on:dragover.prevent="isDragging = true"
-                    x-on:dragleave.prevent="isDragging = false" x-on:drop.prevent="handleDrop($event)"
+                }" x-on:dragover.prevent="isDragging = true" x-on:dragleave.prevent="isDragging = false"
+                    x-on:drop.prevent="handleDrop($event)"
                     class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer transition-all"
                     :class="{ 'border-blue-500 bg-blue-50': isDragging }" @click="$refs.fileInput.click()">
                     <input type="file" wire:model="cover" x-ref="fileInput" class="hidden" accept="image/*"
@@ -142,10 +142,8 @@
                             @endphp
                             @if ($url)
                                 <div class="relative w-24 h-24">
-                                    <img src="{{ asset('storage/' . $url) }}"
-                                        class="object-cover w-full h-full rounded shadow">
-                                    <button type="button"
-                                        wire:click.prevent="removeExistingImage({{ $index }})"
+                                    <img src="{{ asset('storage/' . $url) }}" class="object-cover w-full h-full rounded shadow">
+                                    <button type="button" wire:click.prevent="removeExistingImage({{ $index }})"
                                         class="absolute top-0 right-0 bg-red-600 text-white rounded-full px-1.5 hover:bg-red-800">×
                                     </button>
                                 </div>
@@ -182,13 +180,13 @@
                         $refs.fileInput.files = dt.files;
                         $refs.fileInput.dispatchEvent(new Event('change', { bubbles: true }));
                     }
-                }" x-on:dragover.prevent="isDragging = true"
-                    x-on:dragleave.prevent="isDragging = false" x-on:drop.prevent="handleDrop($event)"
+                }" x-on:dragover.prevent="isDragging = true" x-on:dragleave.prevent="isDragging = false"
+                    x-on:drop.prevent="handleDrop($event)"
                     class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer transition-all"
                     :class="{ 'border-blue-500 bg-blue-50': isDragging }" @click="$refs.fileInput.click()">
 
-                    <input type="file" wire:model="images" x-ref="fileInput" class="hidden" accept="image/*"
-                        multiple @change="handleInputChange($event)">
+                    <input type="file" wire:model="images" x-ref="fileInput" class="hidden" accept="image/*" multiple
+                        @change="handleInputChange($event)">
 
                     <template x-if="previews.length === 0">
                         <div>
@@ -319,25 +317,27 @@
                     <div wire:key="part-{{ $index }}" class="mb-4 border p-4 rounded bg-gray-100">
                         <div class="flex justify-between">
                             <strong>Parte {{ $index + 1 }}</strong>
+                            <a href="{{ route('admin.product.recipe.part', $part['id']) }}">Editar</a>
                             <button type="button" wire:click="deletePart('{{ $part['id'] }}')"
                                 class="text-red-600">🗑️</button>
                         </div>
 
                         <label>Display</label>
-                        <input type="text" wire:model="parts.{{ $index }}.display"
-                            class="w-full border px-3 py-2 rounded">
+                        <input type="text" wire:model="parts.{{ $index }}.display" class="w-full border px-3 py-2 rounded">
 
                         <label>Ingredientes</label>
-                        <textarea id="ingredients-{{ $index }}" wire:ignore wire:model.lazy="parts.{{ $index }}.ingredients"
-                            class="editor w-full h-32">
-                            {{ $part['ingredients'] }}
-                        </textarea>
+                        <div class="ql-snow">
+                            <div id="ingredients-{{ $index }}" class="ql-editor w-full">
+                                {!! $part['ingredients'] !!}
+                            </div>
+                        </div>
 
                         <label class="mt-2">Descripción</label>
-                        <textarea id="description-{{ $index }}" wire:ignore wire:model.lazy="parts.{{ $index }}.description"
-                            class="editor w-full h-32">
-                            {{ $part['description'] }}
-                        </textarea>
+                        <div class="ql-snow">
+                            <div id="description-{{ $index }}" class="ql-editor w-full">
+                                {!! $part['description'] !!}
+                            </div>
+                        </div>
                     </div>
                 @endforeach
 

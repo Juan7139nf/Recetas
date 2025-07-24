@@ -81,6 +81,10 @@
                                 class="whitespace-nowrap rounded-sm bg-transparent p-0.5 font-semibold text-black outline-black hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 active:opacity-100 active:outline-offset-0 dark:text-white dark:outline-white">
                                 Edit
                             </a>
+                            <a href="{{ route('admin.product.recipe.read', $item->id) }}"
+                                class="whitespace-nowrap rounded-sm bg-transparent p-0.5 font-semibold text-black outline-black hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 active:opacity-100 active:outline-offset-0 dark:text-white dark:outline-white">
+                                Ver
+                            </a>
                         </td>
                     </tr>
                 @empty

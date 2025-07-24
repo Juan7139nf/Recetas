@@ -13,15 +13,7 @@ class RecipePartEdit extends Component
     public $display;
     public $ingredients;
     public $description;
-    public $order;
-
-    protected $rules = [
-        'recipe_id' => 'required|exists:recipes,id',
-        'display' => 'required|string|max:255',
-        'ingredients' => 'nullable|string',
-        'description' => 'nullable|string',
-        'order' => 'required|integer|min:0',
-    ];
+    public $orden;
 
     public function mount($id)
     {
@@ -31,30 +23,29 @@ class RecipePartEdit extends Component
         $this->display = $recipePart->display;
         $this->ingredients = $recipePart->ingredients;
         $this->description = $recipePart->description;
-        $this->order = $recipePart->order;
+        $this->orden = $recipePart->orden;
     }
 
     public function save()
     {
-        $this->validate();
-
         $recipePart = RecipePart::findOrFail($this->recipePartId);
         $recipePart->update([
-            'recipe_id' => $this->recipe_id,
             'display' => $this->display,
             'ingredients' => $this->ingredients,
             'description' => $this->description,
-            'order' => $this->order,
+            'orden' => $this->orden,
         ]);
 
         session()->flash('message', 'Parte de receta actualizada correctamente.');
-
         // Opcional: redirigir a otra página o emitir evento Livewire
         // return redirect()->route('ruta.deseada');
     }
 
     public function render()
     {
-        return view('livewire.recipe-part-edit');
+        return view('livewire.admin.products.recipe-part-edit')
+            ->layout('layouts.admin', [
+                'title' => 'Editar parte receta',
+            ]);
     }
 }

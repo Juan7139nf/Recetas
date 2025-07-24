@@ -6,6 +6,8 @@ use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Products\RecetasAdd;
 use App\Livewire\Admin\Products\RecetasBrowser;
 use App\Livewire\Admin\Products\RecetasEdit;
+use App\Livewire\Admin\Products\RecetasRead;
+use App\Livewire\Admin\Products\RecipePartEdit;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\RegisterStep1;
 use App\Livewire\Auth\RegisterStep2;
@@ -41,9 +43,10 @@ Route::prefix('dashboard')->name('admin.')->middleware('auth')->group(function (
     Route::prefix('product')->name('product.')->group(function () {
         Route::prefix('recipe')->name('recipe.')->group(function () {
             Route::get('/', RecetasBrowser::class)->name('browser');
-            Route::get('/create', RecetasAdd::class)->name('add');
+            Route::get('/read/{id}', RecetasRead::class)->name('read');
             Route::get('/edit/{id}', RecetasEdit::class)->name('edit');
-
+            Route::get('/create', RecetasAdd::class)->name('add');
+            Route::get('/part/{id}', RecipePartEdit::class)->name('part');
         });
     });
 });
