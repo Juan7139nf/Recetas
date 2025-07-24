@@ -86,6 +86,18 @@
                 <label class="block">Duración (minutos)</label>
                 <input type="number" wire:model="duration_minutes" class="w-full border px-3 py-2 rounded">
             </div>
+            
+            <div class="mb-4">
+                <label class="block">Categorías</label>
+                <select wire:model="selectedCategories" multiple class="w-full border px-3 py-2 rounded h-40">
+                    @foreach ($allCategories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                @error('selectedCategories')
+                    <span class="text-red-500">{{ $message }}</span>
+                @enderror
+            </div>
 
             {{-- Portada --}}
             <div class="mb-4">
@@ -102,8 +114,8 @@
                             $refs.fileInput.dispatchEvent(new Event('change', { bubbles: true }));
                         }
                     }
-                }" x-on:dragover.prevent="isDragging = true" x-on:dragleave.prevent="isDragging = false"
-                    x-on:drop.prevent="handleDrop($event)"
+                }" x-on:dragover.prevent="isDragging = true"
+                    x-on:dragleave.prevent="isDragging = false" x-on:drop.prevent="handleDrop($event)"
                     class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer transition-all"
                     :class="{ 'border-blue-500 bg-blue-50': isDragging }" @click="$refs.fileInput.click()">
                     <input type="file" wire:model="cover" x-ref="fileInput" class="hidden" accept="image/*"
@@ -142,8 +154,10 @@
                             @endphp
                             @if ($url)
                                 <div class="relative w-24 h-24">
-                                    <img src="{{ asset('storage/' . $url) }}" class="object-cover w-full h-full rounded shadow">
-                                    <button type="button" wire:click.prevent="removeExistingImage({{ $index }})"
+                                    <img src="{{ asset('storage/' . $url) }}"
+                                        class="object-cover w-full h-full rounded shadow">
+                                    <button type="button"
+                                        wire:click.prevent="removeExistingImage({{ $index }})"
                                         class="absolute top-0 right-0 bg-red-600 text-white rounded-full px-1.5 hover:bg-red-800">×
                                     </button>
                                 </div>
@@ -180,13 +194,13 @@
                         $refs.fileInput.files = dt.files;
                         $refs.fileInput.dispatchEvent(new Event('change', { bubbles: true }));
                     }
-                }" x-on:dragover.prevent="isDragging = true" x-on:dragleave.prevent="isDragging = false"
-                    x-on:drop.prevent="handleDrop($event)"
+                }" x-on:dragover.prevent="isDragging = true"
+                    x-on:dragleave.prevent="isDragging = false" x-on:drop.prevent="handleDrop($event)"
                     class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer transition-all"
                     :class="{ 'border-blue-500 bg-blue-50': isDragging }" @click="$refs.fileInput.click()">
 
-                    <input type="file" wire:model="images" x-ref="fileInput" class="hidden" accept="image/*" multiple
-                        @change="handleInputChange($event)">
+                    <input type="file" wire:model="images" x-ref="fileInput" class="hidden" accept="image/*"
+                        multiple @change="handleInputChange($event)">
 
                     <template x-if="previews.length === 0">
                         <div>
@@ -215,102 +229,7 @@
                 Guardar Receta
             </button>
 
-            <!--
-            <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
-            -->
-            <!--
-            <button id="btnFrac12" type="button" title="Insertar ½">½</button>
-            <button id="btnFrac14" type="button" title="Insertar ¼">¼</button>
-            <button id="btnFrac34" type="button" title="Insertar ¾">¾</button>
-            <div class="mb-4">
-                -->
-            <!-- Editor visual Quill -->
-            <!--
-                <div id="editorQuill" style="height: 300px;"></div>
-            </div>
-            <script>
-                const toolbarOptions = [
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['blockquote', 'code-block'],
-                    [{
-                        'header': 1
-                    }, {
-                        'header': 2
-                    }],
-                    [{
-                        'list': 'ordered'
-                    }, {
-                        'list': 'bullet'
-                    }],
-                    [{
-                        'script': 'sub'
-                    }, {
-                        'script': 'super'
-                    }],
-                    [{
-                        'indent': '-1'
-                    }, {
-                        'indent': '+1'
-                    }],
-                    [{
-                        'direction': 'rtl'
-                    }],
-                    [{
-                        'size': ['small', false, 'large', 'huge']
-                    }],
-                    [{
-                        'header': [1, 2, 3, 4, 5, 6, false]
-                    }],
-                    [{
-                        'color': []
-                    }, {
-                        'background': []
-                    }],
-                    [{
-                        'font': []
-                    }],
-                    [{
-                        'align': []
-                    }],
-                    ['link', 'image', 'video'],
-                    ['clean']
-                ];
-
-                // Inicializar Quill
-                const quill = new Quill('#editorQuill', {
-                    modules: {
-                        syntax: true,
-                        toolbar: toolbarOptions
-                    },
-                    theme: 'snow'
-                });
-
-                document.getElementById('btnFrac12').addEventListener('click', () => {
-                    const range = quill.getSelection(true);
-                    if (range) {
-                        quill.insertText(range.index, '\u00BD');
-                        quill.setSelection(range.index + 1);
-                    }
-                });
-                document.getElementById('btnFrac14').addEventListener('click', () => {
-                    const range = quill.getSelection(true);
-                    if (range) {
-                        quill.insertText(range.index, '\u00BC');
-                        quill.setSelection(range.index + 1);
-                    }
-                });
-                document.getElementById('btnFrac34').addEventListener('click', () => {
-                    const range = quill.getSelection(true);
-                    if (range) {
-                        quill.insertText(range.index, '\u00BE');
-                        quill.setSelection(range.index + 1);
-                    }
-                });
-            </script>-->
-
             <h2 class="text-lg font-bold mb-4">Partes de la receta</h2>
-
-            <!-- Incluye este script en el <head> o antes del cierre del <body> -->
 
             <div>
                 @foreach ($parts as $index => $part)
@@ -323,7 +242,8 @@
                         </div>
 
                         <label>Display</label>
-                        <input type="text" wire:model="parts.{{ $index }}.display" class="w-full border px-3 py-2 rounded">
+                        <input type="text" wire:model="parts.{{ $index }}.display"
+                            class="w-full border px-3 py-2 rounded">
 
                         <label>Ingredientes</label>
                         <div class="ql-snow">

@@ -3,6 +3,9 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Site\SettingsController;
 use App\Livewire\Admin\Dashboard;
+use App\Livewire\Admin\Products\CategoriaAddEdit;
+use App\Livewire\Admin\Products\CategoriaBrowser;
+use App\Livewire\Admin\Products\CategoriaRead;
 use App\Livewire\Admin\Products\RecetasAdd;
 use App\Livewire\Admin\Products\RecetasBrowser;
 use App\Livewire\Admin\Products\RecetasEdit;
@@ -22,6 +25,7 @@ Route::get('/', function () {
 })->name('home');*/
 
 Route::get('/', Home::class)->name('home');
+Route::get('/login', Login::class)->name('login');
 
 Route::prefix('authentication')->name('auth.')->group(function () {
     Route::get('/login', Login::class)->name('login');
@@ -47,6 +51,12 @@ Route::prefix('dashboard')->name('admin.')->middleware('auth')->group(function (
             Route::get('/edit/{id}', RecetasEdit::class)->name('edit');
             Route::get('/create', RecetasAdd::class)->name('add');
             Route::get('/part/{id}', RecipePartEdit::class)->name('part');
+        });
+        Route::prefix('category')->name('category.')->group(function () {
+            Route::get('/', CategoriaBrowser::class)->name('browser');
+            Route::get('/read', CategoriaRead::class)->name('read');
+            Route::get('/create', CategoriaAddEdit::class)->name('add');
+            Route::get('/edit/{id}', CategoriaAddEdit::class)->name('edit');
         });
     });
 });

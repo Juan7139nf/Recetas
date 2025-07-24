@@ -28,12 +28,17 @@ class RecetasBrowser extends Component
 
         return view('bread.browser', [
             'items' => $recipes,
-            'columns' => ['id','cover','title', 'price', 'license'],
+            'columns' => ['id', 'cover', 'title', 'price', 'license'],
             'model' => 'admin.product.recipe.',
+            'routes' => [
+                'add' => route('admin.product.recipe.add'),
+                'edit' => fn($id) => route('admin.product.recipe.edit', $id),
+                'read' => fn($id) => route('admin.product.recipe.read', $id),
+            ],
             'table' => 'Recetas',
         ])
             ->layout('layouts.admin', [
-                    'title' => __('auth.register_step1'),
-                ]);
+                'title' => __('auth.register_step1'),
+            ]);
     }
 }

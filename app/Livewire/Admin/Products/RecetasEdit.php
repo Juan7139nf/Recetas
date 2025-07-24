@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Products;
 
+use App\Models\Category;
 use App\Models\Recipe;
 use App\Models\RecipePart;
 use Livewire\Component;
@@ -23,6 +24,8 @@ class RecetasEdit extends Component
     public $existingImages = [];
     public $existingCover;
     public $parts = [];
+    public $selectedCategories = [];
+    public $allCategories = [];
 
     public function mount($id)
     {
@@ -48,6 +51,9 @@ class RecetasEdit extends Component
                 'order' => $part->order,
             ];
         })->values()->toArray();
+
+        $this->allCategories = Category::orderBy('name')->get();
+        $this->selectedCategories = $recipe->categories()->pluck('id')->toArray();
     }
 
     public function save()
@@ -61,6 +67,7 @@ class RecetasEdit extends Component
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'difficulty' => 'required|string',
             'duration_minutes' => 'required|integer',
+            'selectedCategories' => 'required|array|min:1',
         ]);
 
         $recipe = Recipe::findOrFail($this->recipeId);
@@ -92,6 +99,8 @@ class RecetasEdit extends Component
                 'duration_minutes' => $this->duration_minutes,
             ],
         ]);
+
+        $recipe->categories()->sync($this->selectedCategories);
 
         foreach ($this->parts as $index => $part) {
             if (isset($part['id'])) {

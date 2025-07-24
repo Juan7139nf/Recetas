@@ -98,7 +98,7 @@
             </div>
 
             <!-- collapsible item  -->
-            <div x-data="{ isExpanded: false }" class="flex flex-col">
+            <div x-data="{ isExpanded: true }" class="flex flex-col">
                 <button type="button" x-on:click="isExpanded = ! isExpanded" id="products-btn" aria-controls="products"
                     x-bind:aria-expanded="isExpanded ? 'true' : 'false'"
                     class="flex items-center justify-between rounded-sm gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-hidden focus-visible:underline"
@@ -122,11 +122,11 @@
                 <ul x-cloak x-collapse x-show="isExpanded" aria-labelledby="products-btn" id="products">
                     <li class="px-1 py-0.5 first:mt-2">
                         <a href="{{ route('admin.product.recipe.browser') }}"
-                            class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus:outline-hidden focus-visible:underline dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white">Recipe</a>
+                            class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus:outline-hidden focus-visible:underline dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white">Recetas</a>
                     </li>
                     <li class="px-1 py-0.5 first:mt-2">
-                        <a href="#"
-                            class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus:outline-hidden focus-visible:underline dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white">Inventory</a>
+                        <a href="{{ route('admin.product.category.browser') }}"
+                            class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus:outline-hidden focus-visible:underline dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white">Categorias</a>
                     </li>
                     <li class="px-1 py-0.5 first:mt-2">
                         <a href="#"
