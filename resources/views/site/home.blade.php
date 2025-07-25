@@ -8,19 +8,20 @@
                             <div
                                 class="group flex rounded-sm w-full h-full flex-col overflow-hidden border border-neutral-300 bg-neutral-50 text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
                                 <div class="h-44 md:h-64 overflow-hidden">
-                                    <img src="{{asset('storage/' . $item->cover['url'])}}"
+                                    <img src="{{ asset('storage/' . $item->cover['url']) }}"
                                         class="object-cover transition duration-700 ease-out group-hover:scale-105"
-                                        alt="{{$item->title}}" />
+                                        alt="{{ $item->title }}" />
                                 </div>
                                 <div class="flex flex-col gap-4 p-6">
-                                    <span class="text-sm font-medium">{{$item->license}}</span>
+                                    <span class="text-sm font-medium">{{ $item->license }}</span>
                                     <h3 class="text-balance text-xl lg:text-2xl font-bold text-neutral-900 dark:text-white"
-                                        aria-describedby="featureDescription">{{$item->title}}</h3>
-                                    <a href="#"
+                                        aria-describedby="featureDescription">{{ $item->title }}</h3>
+                                    <a href="{{ route('recipe.read', $item->id) }}"
                                         class="w-fit font-medium mt-auto text-black underline-offset-2 hover:underline focus:underline focus:outline-hidden dark:text-white">
                                         Leer receta
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
-                                            fill="none" stroke-width="2.5" aria-hidden="true" class="inline size-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                            stroke="currentColor" fill="none" stroke-width="2.5" aria-hidden="true"
+                                            class="inline size-4">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                                         </svg>
@@ -38,12 +39,12 @@
             @foreach ($recetas as $item)
                 <div class="group relative">
                     <article
-                        class="group flex rounded-sm w-full flex-col overflow-hidden border border-neutral-300 bg-neutral-50 text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
+                        class="group flex rounded-sm w-full h-full flex-col overflow-hidden border border-neutral-300 bg-neutral-50 text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
                         <!-- Image -->
                         <div class="h-44 md:h-64 overflow-hidden">
-                            <img src="{{asset('storage/' . $item->cover['url'])}}"
+                            <img src="{{ asset('storage/' . $item->cover['url']) }}"
                                 class="object-cover transition duration-700 ease-out group-hover:scale-105"
-                                alt="{{$item->title}}" />
+                                alt="{{ $item->title }}" />
                         </div>
                         <!-- Content -->
                         <div class="flex flex-col gap-4 p-6">
@@ -52,7 +53,7 @@
                                 <!-- Title & Rating -->
                                 <div class="flex flex-col">
                                     <h3 class="text-lg lg:text-xl font-bold text-neutral-900 dark:text-white"
-                                        aria-describedby="productDescription">{{$item->title}}</h3>
+                                        aria-describedby="productDescription">{{ $item->title }}</h3>
                                     <!-- Rating -->
                                     <div class="flex items-center gap-1">
                                         <span class="sr-only">Rated 3 stars</span>
@@ -75,35 +76,40 @@
                                                 clip-rule="evenodd" />
                                         </svg>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                            class="size-4 text-neutral-600/50 dark:text-neutral-300/50" aria-hidden="true">
+                                            class="size-4 text-neutral-600/50 dark:text-neutral-300/50"
+                                            aria-hidden="true">
                                             <path fill-rule="evenodd"
                                                 d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
                                                 clip-rule="evenodd" />
                                         </svg>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                            class="size-4 text-neutral-600/50 dark:text-neutral-300/50" aria-hidden="true">
+                                            class="size-4 text-neutral-600/50 dark:text-neutral-300/50"
+                                            aria-hidden="true">
                                             <path fill-rule="evenodd"
                                                 d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
                                                 clip-rule="evenodd" />
                                         </svg>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="flex justify-between">
+                                <!-- Button -->
+                                <form action="{{ route('orden.agregar', $item->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="flex items-center justify-center gap-2 whitespace-nowrap bg-black px-4 py-2 text-center text-sm font-medium tracking-wide text-neutral-100 transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 dark:bg-white dark:text-black dark:focus-visible:outline-white rounded-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                            aria-hidden="true" class="size-3.5">
+                                            <path fill-rule="evenodd"
+                                                d="M5 4a3 3 0 0 1 6 0v1h.643a1.5 1.5 0 0 1 1.492 1.35l.7 7A1.5 1.5 0 0 1 12.342 15H3.657a1.5 1.5 0 0 1-1.492-1.65l.7-7A1.5 1.5 0 0 1 4.357 5H5V4Zm4.5 0v1h-3V4a1.5 1.5 0 0 1 3 0Zm-3 3.75a.75.75 0 0 0-1.5 0v1a3 3 0 1 0 6 0v-1a.75.75 0 0 0-1.5 0v1a1.5 1.5 0 1 1-3 0v-1Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        Add to Cart
+                                    </button>
+                                </form>
+
                                 <span class="text-xl"><span class="sr-only">Precio</span>{{ $item->price }} Bs</span>
                             </div>
-                            <!-- Button -->
-                            <form action="{{ route('orden.agregar', $item->id) }}" method="POST">
-                                @csrf
-                                <button type="submit"
-                                    class="flex items-center justify-center gap-2 whitespace-nowrap bg-black px-4 py-2 text-center text-sm font-medium tracking-wide text-neutral-100 transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 dark:bg-white dark:text-black dark:focus-visible:outline-white rounded-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-                                        aria-hidden="true" class="size-3.5">
-                                        <path fill-rule="evenodd"
-                                            d="M5 4a3 3 0 0 1 6 0v1h.643a1.5 1.5 0 0 1 1.492 1.35l.7 7A1.5 1.5 0 0 1 12.342 15H3.657a1.5 1.5 0 0 1-1.492-1.65l.7-7A1.5 1.5 0 0 1 4.357 5H5V4Zm4.5 0v1h-3V4a1.5 1.5 0 0 1 3 0Zm-3 3.75a.75.75 0 0 0-1.5 0v1a3 3 0 1 0 6 0v-1a.75.75 0 0 0-1.5 0v1a1.5 1.5 0 1 1-3 0v-1Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    Add to Cart
-                                </button>
-                            </form>
                         </div>
                     </article>
                 </div>

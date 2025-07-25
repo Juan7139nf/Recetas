@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Login extends Component
 {
-    public $name, $password, $remember = false;
+    public $name, $password, $remember = false, $error = false;
 
     public function authenticate()
     {
@@ -18,7 +18,7 @@ class Login extends Component
             ->first();
 
         if (!$user || !Hash::check($this->password, $user->password)) {
-            $this->addError('error', 'Credenciales inválidas.');
+            $this->error = true;
             return;
         }
 

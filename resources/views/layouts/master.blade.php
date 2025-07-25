@@ -11,6 +11,8 @@
     <link rel="icon" href="{{asset('assets/img/site/logo.ico')}}" type="image/x-icon" sizes="48x48">
 
     @include('compass.index')
+    
+    @include('compass.includes.quilljs')
 
     <script src="{{ asset('assets/js/jquery.min.js')}}"></script>
 

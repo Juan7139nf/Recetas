@@ -70,3 +70,5 @@ Route::post('/orden/agregar/{id}', [OrdenController::class, 'agregar'])
 Route::get('/orden/cart', Confirm::class)
     ->name('cart')
     ->middleware('auth');
+
+Route::get('/recipe/{id}', RecetasRead::class)->name('recipe.read');

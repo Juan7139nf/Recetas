@@ -44,8 +44,7 @@
             </button>
         </li>
         <!-- User Pic -->
-        <li x-data="{ userDropDownIsOpen: false, openWithKeyboard: false }"
-            x-on:keydown.esc.window="userDropDownIsOpen = false, openWithKeyboard = false"
+        <li x-data="{ userDropDownIsOpen: false, openWithKeyboard: false }" x-on:keydown.esc.window="userDropDownIsOpen = false, openWithKeyboard = false"
             class="relative flex items-center">
             <button x-on:click="userDropDownIsOpen = ! userDropDownIsOpen" x-bind:aria-expanded="userDropDownIsOpen"
                 x-on:keydown.space.prevent="openWithKeyboard = true"
@@ -141,7 +140,8 @@
                 </div>
             </div>
         </li>
-        <li class="p-2"><a href="#" class="w-full text-lg font-bold text-black focus:underline dark:text-white"
+        <li class="p-2"><a href="#"
+                class="w-full text-lg font-bold text-black focus:underline dark:text-white"
                 aria-current="page">Products</a></li>
         <li class="p-2"><a href="#"
                 class="w-full text-lg font-medium text-neutral-600 focus:underline dark:text-neutral-300">Pricing</a>
@@ -150,11 +150,13 @@
                 class="w-full text-lg font-medium text-neutral-600 focus:underline dark:text-neutral-300">Blog</a>
         </li>
         <hr role="none" class="my-2 border-outline dark:border-neutral-700">
-        <li class="p-2"><a href="#" class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Dashboard</a>
+        <li class="p-2"><a href="#"
+                class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Dashboard</a>
         </li>
         <li class="p-2"><a href="#"
                 class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Subscription</a></li>
-        <li class="p-2"><a href="#" class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Settings</a>
+        <li class="p-2"><a href="#"
+                class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Settings</a>
         </li>
         <!-- CTA Button -->
         <li class="mt-4 w-full border-none">
@@ -164,8 +166,8 @@
         </li>
     </ul>
 </nav>
-<div x-data="{ show: false, screenHeight: 0 }" x-init="screenHeight = window.innerHeight / 8"
-    x-on:scroll.window="show = window.pageYOffset >= screenHeight" class="fixed bottom-8 right-8">
+<div x-data="{ show: false, screenHeight: 0 }" x-init="screenHeight = window.innerHeight / 8" x-on:scroll.window="show = window.pageYOffset >= screenHeight"
+    class="fixed bottom-8 right-8">
     <button x-show="show" x-transition x-on:click="window.scrollTo({top: 0, behavior: 'smooth'})"
         class="shadow-lg {{ site('bg-linear-to-b') }} p-2 rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
@@ -177,8 +179,7 @@
 
 @auth
     <div class="fixed bottom-8 left-8 shadow-lg {{ site('bg-linear-to-b') }} p-2 rounded-full">
-        <a href="{{ route('cart') }}"
-            class="rounded-full ">
+        <a href="{{ route('cart') }}" class="rounded-full ">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                 <path class="fill-black dark:fill-white"
                     d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
@@ -195,7 +196,7 @@
                     _method: 'POST',
                     _token: '{{ csrf_token() }}'
                 },
-                success: function (response) {
+                success: function(response) {
                     console.log('Tema cambiado a:', response);
                     if (response.theme) {
                         document.documentElement.setAttribute('data-theme', response.theme);
@@ -209,10 +210,10 @@
                         }
                     }
                 },
-                error: function () {
+                error: function() {
                     console.error('Error al cambiar tema');
                 },
-                complete: function () {
+                complete: function() {
                     console.log('La petición ha terminado');
                 }
             });
@@ -228,7 +229,10 @@
                     _method: 'DELETE',
                     _token: '{{ csrf_token() }}'
                 },
-                error: function () {
+                success: function() {
+                    location.reload();
+                },
+                error: function() {
                     console.error('Error al cerrar sesión');
                 }
             });

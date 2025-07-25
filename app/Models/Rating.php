@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Rating extends Model
 {
     use HasFactory;
     public $incrementing = false;
-    protected $primaryKey = ['user_id', 'recipe_id'];
 
     protected $fillable = [
         'user_id',
@@ -28,5 +28,16 @@ class Rating extends Model
     public function recipe()
     {
         return $this->belongsTo(Recipe::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $model->id = (string) Str::uuid();
+            }
+        });
     }
 }

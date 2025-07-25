@@ -67,4 +67,15 @@ class Recipe extends Model
     {
         return $this->belongsToMany(Product::class, 'product_recipes', 'recipe_id', 'product_id');
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function averageRating()
+    {
+        return $this->ratings()->avg('score');
+    }
+
 }

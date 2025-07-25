@@ -48,12 +48,12 @@ class RegisterStep2 extends Component
         if ($this->image) {
             $filename = $user->id . '.' . $this->image->getClientOriginalExtension();
             $path = $this->image->storeAs('public/users', $filename);
-            $user->image = 'users/' . $filename;
+            $user->image = ['url' => 'users/' . $filename];
         }
 
         $user->setSetting('language', $this->language);
         $user->setSetting('theme', $this->theme);
-        
+
         $user->save();
 
         return redirect()->route('auth.registration-completed');
