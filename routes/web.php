@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Site\OrdenController;
 use App\Http\Controllers\Site\SettingsController;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Products\CategoriaAddEdit;
@@ -16,6 +17,7 @@ use App\Livewire\Auth\RegisterStep1;
 use App\Livewire\Auth\RegisterStep2;
 use App\Livewire\Auth\RegistrationCompleted;
 use App\Livewire\Site\Home;
+use App\Livewire\Site\Order\Confirm;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 
@@ -60,3 +62,11 @@ Route::prefix('dashboard')->name('admin.')->middleware('auth')->group(function (
         });
     });
 });
+
+Route::post('/orden/agregar/{id}', [OrdenController::class, 'agregar'])
+    ->name('orden.agregar')
+    ->middleware('auth');
+
+Route::get('/orden/cart', Confirm::class)
+    ->name('cart')
+    ->middleware('auth');

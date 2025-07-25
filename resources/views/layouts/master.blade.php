@@ -20,34 +20,27 @@
 </head>
 
 <body class="{{ site('background', 'bg-neutral-50 dark:bg-neutral-900') }} ">
-    <div
-        class="h-[30rem] relative bg-[url({{ asset('assets/img/site/home.webp') }})] bg-cover bg-center mask-b-from-20% mask-b-to-95%  bg-object-cover">
+    @if ($header === 1)
         <div
-            class="backdrop-blur-sm h-[100%] w-[100%] bg-linear-to-t from-transparent from-50% to-white/50 dark:to-black/80">
-        </div>
-    </div>
-
-    <div class="absolute top-25 h-40 w-[100%]">
-        <div class="splide mi-carousel-interval-autoplay">
-            <div class="splide__track">
-                <ul class="splide__list">
-                    <li class="splide__slide bg-red-700">Slide 1</li>
-                    <li class="splide__slide bg-red-700">Slide 2</li>
-                    <li class="splide__slide bg-red-700">Slide 3</li>
-                    <li class="splide__slide bg-red-700">Slide 4</li>
-                    <li class="splide__slide bg-red-700">Slide 5</li>
-                    <li class="splide__slide bg-red-700">Slide 6</li>
-                    <li class="splide__slide bg-red-700">Slide 7</li>
-                </ul>
+            class="h-[30rem] relative bg-[url({{ asset('assets/img/site/home.webp') }})] bg-cover bg-center mask-b-from-20% mask-b-to-95%  bg-object-cover">
+            <div
+                class="backdrop-blur-sm h-[100%] w-[100%] bg-linear-to-t from-transparent from-50% to-white/50 dark:to-black/80">
             </div>
         </div>
-    </div>
-
-    @include('partials.navbar')
+    @else
+        <div
+            class="h-[5rem] relative bg-[url({{ asset('assets/img/site/home.webp') }})] bg-cover bg-center mask-b-from-20% mask-b-to-95%  bg-object-cover">
+            <div
+                class="backdrop-blur-sm h-[100%] w-[100%] bg-linear-to-t from-transparent from-50% to-white/50 dark:to-black/80">
+            </div>
+        </div>
+    @endif
 
     <main>
         {{ $slot }}
     </main>
+
+    @include('partials.navbar')
 
     <footer></footer>
 </body>

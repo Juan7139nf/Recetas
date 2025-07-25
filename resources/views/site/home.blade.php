@@ -1,74 +1,113 @@
 <div class="flex flex-col gap-4">
-    <!-- User's Chat -->
-    <div class="w-full max-w-2xl border-neutral-300 bg-neutral-50 p-6 text-left dark:border-neutral-700 dark:bg-neutral-900 rounded-sm border" >
-        <div class="flex items-center gap-2 text-neutral-900 dark:text-white">
-            <img src="https://penguinui.s3.amazonaws.com/component-assets/avatar-1.webp" class="size-8 rounded-full object-cover" alt="User avatar"/>
-            <span class="text-sm font-bold">Bob Johnson</span>
+    <div class="absolute top-25 w-full">
+        <div class="splide mi-carousel-interval-autoplay">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    @foreach ($carrousel as $item)
+                        <li class="splide__slide">
+                            <div
+                                class="group flex rounded-sm w-full h-full flex-col overflow-hidden border border-neutral-300 bg-neutral-50 text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
+                                <div class="h-44 md:h-64 overflow-hidden">
+                                    <img src="{{asset('storage/' . $item->cover['url'])}}"
+                                        class="object-cover transition duration-700 ease-out group-hover:scale-105"
+                                        alt="{{$item->title}}" />
+                                </div>
+                                <div class="flex flex-col gap-4 p-6">
+                                    <span class="text-sm font-medium">{{$item->license}}</span>
+                                    <h3 class="text-balance text-xl lg:text-2xl font-bold text-neutral-900 dark:text-white"
+                                        aria-describedby="featureDescription">{{$item->title}}</h3>
+                                    <a href="#"
+                                        class="w-fit font-medium mt-auto text-black underline-offset-2 hover:underline focus:underline focus:outline-hidden dark:text-white">
+                                        Leer receta
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                            fill="none" stroke-width="2.5" aria-hidden="true" class="inline size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
-        <p class="text-pretty sm:pl-10 mt-4 sm:mt-0 text-sm text-neutral-600 dark:text-neutral-300">Generate a code for "Hellow World" in Javascript</p>
-        <!-- Actions -->
-        <div class="mt-2 flex items-center gap-2 sm:pl-10">
-            <button class="rounded-full p-1 text-neutral-600/75 hover:bg-neutral-950/10 hover:text-neutral-600 focus:outline-hidden focus-visible:text-neutral-600 focus-visible:neutral-300 focus-visible:outline-offset-0 focus-visible:outline-black active:bg-neutral-950/5 active:-outline-offset-2 dark:text-neutral-300/75 dark:hover:bg-white/10 dark:hover:text-neutral-300 dark:focus-visible:text-neutral-300 dark:focus-visible:outline-white dark:active:bg-white/5" title="Edit" aria-label="Edit your input">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-4" >
-                    <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z"/>
-                    <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z"/>
-                </svg>
-            </button>
+        <br>
+        <div
+            class="lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 grid w-full gap-6 border-neutral-300 bg-neutral-50 p-6 dark:border-neutral-700 dark:bg-neutral-900 rounded-sm border">
+            @foreach ($recetas as $item)
+                <div class="group relative">
+                    <article
+                        class="group flex rounded-sm w-full flex-col overflow-hidden border border-neutral-300 bg-neutral-50 text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
+                        <!-- Image -->
+                        <div class="h-44 md:h-64 overflow-hidden">
+                            <img src="{{asset('storage/' . $item->cover['url'])}}"
+                                class="object-cover transition duration-700 ease-out group-hover:scale-105"
+                                alt="{{$item->title}}" />
+                        </div>
+                        <!-- Content -->
+                        <div class="flex flex-col gap-4 p-6">
+                            <!-- Header -->
+                            <div class="flex flex-col md:flex-row gap-4 md:gap-12 justify-between">
+                                <!-- Title & Rating -->
+                                <div class="flex flex-col">
+                                    <h3 class="text-lg lg:text-xl font-bold text-neutral-900 dark:text-white"
+                                        aria-describedby="productDescription">{{$item->title}}</h3>
+                                    <!-- Rating -->
+                                    <div class="flex items-center gap-1">
+                                        <span class="sr-only">Rated 3 stars</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-4 text-amber-500" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-4 text-amber-500" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-4 text-amber-500" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-4 text-neutral-600/50 dark:text-neutral-300/50" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-4 text-neutral-600/50 dark:text-neutral-300/50" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="text-xl"><span class="sr-only">Precio</span>{{ $item->price }} Bs</span>
+                            </div>
+                            <!-- Button -->
+                            <form action="{{ route('orden.agregar', $item->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="flex items-center justify-center gap-2 whitespace-nowrap bg-black px-4 py-2 text-center text-sm font-medium tracking-wide text-neutral-100 transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 dark:bg-white dark:text-black dark:focus-visible:outline-white rounded-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                        aria-hidden="true" class="size-3.5">
+                                        <path fill-rule="evenodd"
+                                            d="M5 4a3 3 0 0 1 6 0v1h.643a1.5 1.5 0 0 1 1.492 1.35l.7 7A1.5 1.5 0 0 1 12.342 15H3.657a1.5 1.5 0 0 1-1.492-1.65l.7-7A1.5 1.5 0 0 1 4.357 5H5V4Zm4.5 0v1h-3V4a1.5 1.5 0 0 1 3 0Zm-3 3.75a.75.75 0 0 0-1.5 0v1a3 3 0 1 0 6 0v-1a.75.75 0 0 0-1.5 0v1a1.5 1.5 0 1 1-3 0v-1Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Add to Cart
+                                </button>
+                            </form>
+                        </div>
+                    </article>
+                </div>
+            @endforeach
         </div>
-    </div>
-
-    <!-- AI's Response -->
-    <div class="w-full max-w-2xl border-neutral-300 bg-neutral-50 p-6 text-left dark:border-neutral-700 dark:bg-neutral-900 rounded-sm border" >
-    
-    <div class="flex items-center gap-2 text-neutral-900 dark:text-white">
-        <span class="flex size-8 items-center justify-center rounded-full bg-black text-neutral-100 dark:bg-white dark:text-black">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" class="size-5">
-                <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135" />
-                <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5" />
-            </svg>
-        </span>
-        <span class="text-sm font-bold">Pengu AI</span>
-    </div>
-    <p class="text-pretty sm:pl-10 mt-4 sm:mt-0 text-sm text-neutral-600 dark:text-neutral-300">
-        Certainly! Below is a simple JavaScript code snippet to print "Hello World" to the console:
-    </p>
-    <div class="relative max-w-full overflow-hidden">
-        <button class="absolute right-2 top-5 rounded-full p-1 text-neutral-300/75 hover:text-neutral-300 focus:outline-hidden focus-visible:text-neutral-300 focus-visible:outline focus-visible:outline-offset-0 focus-visible:outline-white active:-outline-offset-2" title="Copy Code" aria-label="Copy Code"/>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4" aria-hidden="true">
-                <path fill-rule="evenodd" d="M13.887 3.182c.396.037.79.08 1.183.128C16.194 3.45 17 4.414 17 5.517V16.75A2.25 2.25 0 0 1 14.75 19h-9.5A2.25 2.25 0 0 1 3 16.75V5.517c0-1.103.806-2.068 1.93-2.207.393-.048.787-.09 1.183-.128A3.001 3.001 0 0 1 9 1h2c1.373 0 2.531.923 2.887 2.182ZM7.5 4A1.5 1.5 0 0 1 9 2.5h2A1.5 1.5 0 0 1 12.5 4v.5h-5V4Z" clip-rule="evenodd"/>
-            </svg>
-        </button>
-<pre class="sm:ml-10 scroll-on my-4 overflow-x-auto bg-neutral-950 p-4 text-sm text-neutral-300 rounded-sm">
-&lt;<span class="text-pink-400">script</span>&gt;
-    <span class="text-pink-400">console</span>.log("<span class="text-blue-400">Hello World!</span>")
-&lt;/<span class="text-pink-400">script</span>&gt;
-</pre>
-    </div>
-    <p class="text-pretty sm:pl-10 mt-4 sm:mt-0 text-sm text-neutral-600 dark:text-neutral-300">
-        Is there anything else I can help with?
-    </p>
-    <!-- Actions -->
-    <div class="mt-2 flex items-center gap-2 sm:pl-10">
-        <button class="rounded-full p-1 text-neutral-600/75 hover:bg-neutral-950/10 hover:text-neutral-600 focus:outline-hidden focus-visible:text-neutral-600 focus-visible:neutral-300 focus-visible:outline-offset-0 focus-visible:outline-black active:bg-neutral-950/5 active:-outline-offset-2 dark:text-neutral-300/75 dark:hover:bg-white/10 dark:hover:text-neutral-300 dark:focus-visible:text-neutral-300 dark:focus-visible:outline-white dark:active:bg-white/5" title="Read Aloud" aria-label="Read Aloud" >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4" aria-hidden="true">
-                <path d="M10.5 3.75a.75.75 0 0 0-1.264-.546L5.203 7H2.667a.75.75 0 0 0-.7.48A6.985 6.985 0 0 0 1.5 10c0 .887.165 1.737.468 2.52.111.29.39.48.7.48h2.535l4.033 3.796a.75.75 0 0 0 1.264-.546V3.75ZM16.45 5.05a.75.75 0 0 0-1.06 1.061 5.5 5.5 0 0 1 0 7.778.75.75 0 0 0 1.06 1.06 7 7 0 0 0 0-9.899Z"/>
-                <path d="M14.329 7.172a.75.75 0 0 0-1.061 1.06 2.5 2.5 0 0 1 0 3.536.75.75 0 0 0 1.06 1.06 4 4 0 0 0 0-5.656Z"/>
-            </svg>
-        </button>
-        <button class="rounded-full p-1 text-neutral-600/75 hover:bg-neutral-950/10 hover:text-neutral-600 focus:outline-hidden focus-visible:text-neutral-600 focus-visible:neutral-300 focus-visible:outline-offset-0 focus-visible:outline-black active:bg-neutral-950/5 active:-outline-offset-2 dark:text-neutral-300/75 dark:hover:bg-white/10 dark:hover:text-neutral-300 dark:focus-visible:text-neutral-300 dark:focus-visible:outline-white dark:active:bg-white/5" title="Copy" aria-label="Copy" >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4" aria-hidden="true">
-                <path fill-rule="evenodd" d="M13.887 3.182c.396.037.79.08 1.183.128C16.194 3.45 17 4.414 17 5.517V16.75A2.25 2.25 0 0 1 14.75 19h-9.5A2.25 2.25 0 0 1 3 16.75V5.517c0-1.103.806-2.068 1.93-2.207.393-.048.787-.09 1.183-.128A3.001 3.001 0 0 1 9 1h2c1.373 0 2.531.923 2.887 2.182ZM7.5 4A1.5 1.5 0 0 1 9 2.5h2A1.5 1.5 0 0 1 12.5 4v.5h-5V4Z" clip-rule="evenodd"/>
-            </svg>
-        </button>
-        <button class="rounded-full p-1 text-neutral-600/75 hover:bg-neutral-950/10 hover:text-neutral-600 focus:outline-hidden focus-visible:text-neutral-600 focus-visible:neutral-300 focus-visible:outline-offset-0 focus-visible:outline-black active:bg-neutral-950/5 active:-outline-offset-2 dark:text-neutral-300/75 dark:hover:bg-white/10 dark:hover:text-neutral-300 dark:focus-visible:text-neutral-300 dark:focus-visible:outline-white dark:active:bg-white/5" title="Like" aria-label="Like" >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4" aria-hidden="true">
-                <path d="M1 8.25a1.25 1.25 0 1 1 2.5 0v7.5a1.25 1.25 0 1 1-2.5 0v-7.5ZM11 3V1.7c0-.268.14-.526.395-.607A2 2 0 0 1 14 3c0 .995-.182 1.948-.514 2.826-.204.54.166 1.174.744 1.174h2.52c1.243 0 2.261 1.01 2.146 2.247a23.864 23.864 0 0 1-1.341 5.974C17.153 16.323 16.072 17 14.9 17h-3.192a3 3 0 0 1-1.341-.317l-2.734-1.366A3 3 0 0 0 6.292 15H5V8h.963c.685 0 1.258-.483 1.612-1.068a4.011 4.011 0 0 1 2.166-1.73c.432-.143.853-.386 1.011-.814.16-.432.248-.9.248-1.388Z"/>
-            </svg>
-        </button>
-        <button class="rounded-full p-1 text-neutral-600/75 hover:bg-neutral-950/10 hover:text-neutral-600 focus:outline-hidden focus-visible:text-neutral-600 focus-visible:neutral-300 focus-visible:outline-offset-0 focus-visible:outline-black active:bg-neutral-950/5 active:-outline-offset-2 dark:text-neutral-300/75 dark:hover:bg-white/10 dark:hover:text-neutral-300 dark:focus-visible:text-neutral-300 dark:focus-visible:outline-white dark:active:bg-white/5" title="More settings" aria-label="More settings" >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4" aria-hidden="true">
-                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
-            </svg>
-        </button>
     </div>
 </div>

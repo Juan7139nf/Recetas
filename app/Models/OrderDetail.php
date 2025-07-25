@@ -18,14 +18,13 @@ class OrderDetail extends Model
         'recipe_id',
         'price',
     ];
+    public function recipe()
+    {
+        return $this->belongsTo(Recipe::class);
+    }
 
     public function order()
     {
         return $this->belongsTo(Order::class);
-    }
-
-    public function recipe()
-    {
-        return $this->belongsTo(Recipe::class);
     }
 }
