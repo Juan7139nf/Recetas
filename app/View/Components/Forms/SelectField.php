@@ -6,17 +6,15 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class InputField extends Component
+class SelectField extends Component
 {
     public $colrow;
     public $id;
     public $name;
     public $label;
     public $wireModel;
+    public $options; // array de opciones con 'label' y 'value'
     public $placeholder;
-    public $type;
-    public $icon;
-    public $viewBox;
 
     /**
      * Create a new component instance.
@@ -27,20 +25,16 @@ class InputField extends Component
         $name = '',
         $label = '',
         $wireModel = '',
-        $placeholder = '',
-        $type = 'text',
-        $icon = '',
-        $viewBox = '0 0 16 16'
+        $options = [],
+        $placeholder = 'Seleccione una opción'
     ) {
         $this->colrow = $colrow;
         $this->id = $id;
         $this->name = $name;
         $this->label = $label;
         $this->wireModel = $wireModel;
+        $this->options = $options;
         $this->placeholder = $placeholder;
-        $this->type = $type;
-        $this->icon = $icon;
-        $this->viewBox = $viewBox;
     }
 
     /**
@@ -48,6 +42,6 @@ class InputField extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.forms.input-field');
+        return view('components.forms.select-field');
     }
 }

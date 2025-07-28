@@ -17,6 +17,7 @@ class Recipe extends Model
     protected $fillable = [
         'user_id',
         'title',
+        'slug',
         'gif_path',
         'image',
         'cover',
@@ -77,5 +78,4 @@ class Recipe extends Model
     {
         return $this->ratings()->avg('score');
     }
-
 }

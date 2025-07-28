@@ -13,8 +13,14 @@
             <path stroke-linecap="round" stroke-linejoin="round"
                 d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
         </svg>
-        <input type="search" name="search" placeholder="Search" aria-label="search"
-            class="w-full rounded-full border border-neutral-700 bg-neutral-900/50 py-2 pl-8 pr-1 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-300 dark:bg-neutral-50 dark:focus-visible:outline-white" />
+        <input type="search" name="search" id="searchInput" placeholder="Buscar recetas" aria-label="search"
+            class="w-full rounded-full border border-neutral-700 bg-neutral-900/50 py-2 pl-8 pr-1 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-300 dark:bg-neutral-50 dark:focus-visible:outline-white"
+            autocomplete="off" />
+
+        <div id="searchResults"
+            class="absolute z-50 mt-1 w-full rounded-md bg-white shadow-lg dark:bg-neutral-800 hidden">
+            <!-- Resultados se insertarán aquí -->
+        </div>
     </div>
     <!-- Desktop Menu -->
     <ul class="hidden items-center gap-3 shrink-0 sm:flex">
@@ -24,6 +30,10 @@
         <li><a href="#"
                 class="font-medium text-neutral-600 underline-offset-2 hover:text-black focus:outline-hidden focus:underline dark:text-neutral-300 dark:hover:text-white">Categorias</a>
         </li>
+        @auth
+            <li><a href="{{ route('cart') }}"
+                    class="font-medium text-neutral-600 underline-offset-2 hover:text-black focus:outline-hidden focus:underline dark:text-neutral-300 dark:hover:text-white">Carrito</a>
+        </li @endauth>
         <li>
             <button onclick="toggleTheme()"
                 class="font-medium text-neutral-600 underline-offset-2 hover:text-black focus:outline-hidden focus:underline dark:text-neutral-300 dark:hover:text-white p-1 rounded-full">
@@ -178,15 +188,6 @@
 </div>
 
 @auth
-    <div class="fixed bottom-8 left-8 shadow-lg {{ site('bg-linear-to-b') }} p-2 rounded-full">
-        <a href="{{ route('cart') }}" class="rounded-full ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                <path class="fill-black dark:fill-white"
-                    d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
-            </svg>
-        </a>
-    </div>
-
     <script>
         function toggleTheme() {
             $.ajax({
@@ -272,5 +273,58 @@
 
             localStorage.setItem('theme', newTheme);
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#searchInput').on('input', function() {
+                const query = $(this).val();
+
+                if (query.length < 2) {
+                    $('#searchResults').empty().addClass('hidden');
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('search') }}',
+                    type: 'GET',
+                    data: {
+                        q: query
+                    },
+                    success: function(data) {
+                        const $results = $('#searchResults');
+                        $results.empty();
+
+                        if (data.length === 0) {
+                            $results.append(
+                                '<div class="p-2 text-sm text-gray-500">Sin resultados</div>'
+                            );
+                        } else {
+                            data.forEach(item => {
+                                $results.append(`
+                                <a href="${item.id}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-neutral-700 border-b border-gray-100 dark:border-neutral-700">
+                                    <div class="flex items-center gap-2">
+                                        <img src="${item.cover['url']}" alt="${item.title}" class="w-10 h-10 object-cover rounded">
+                                        <span>${item.title}</span>
+                                    </div>
+                                </a>
+                            `);
+                            });
+                        }
+
+                        $results.removeClass('hidden');
+                    },
+                    error: function() {
+                        console.error('Error al buscar.');
+                    }
+                });
+            });
+
+            // Ocultar resultados si se hace clic fuera
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#searchInput, #searchResults').length) {
+                    $('#searchResults').addClass('hidden');
+                }
+            });
+        });
     </script>
 @endauth

@@ -6,6 +6,11 @@ use Livewire\Component;
 
 class CategoriaRead extends Component
 {
+    public function mount()
+    {
+        user_has_role();
+    }
+
     public function render()
     {
         return view('livewire.admin.products.categoria-read');

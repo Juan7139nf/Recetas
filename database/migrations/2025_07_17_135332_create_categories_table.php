@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('sort_order')->default(1);
             $table->string('name');
             $table->json('image')->nullable();
-            $table->string('slug')->unique();
+            $table->string('slug')->unique()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

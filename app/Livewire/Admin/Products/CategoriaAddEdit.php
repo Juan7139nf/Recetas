@@ -6,14 +6,19 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class CategoriaAddEdit extends Component
 {
+    use WithFileUploads;
     public $categoryId;
-    public $name, $slug, $sort_order = 1, $parent_id = null, $image = [];
+    public $name, $slug, $sort_order = 1, $parent_id = null, $image = null;
+
+    public $existingImage;
 
     public function mount($id = null)
     {
+        user_has_role();
         $this->categoryId = $id;
         if ($id) {
             $cat = Category::findOrFail($id);
@@ -21,7 +26,8 @@ class CategoriaAddEdit extends Component
             $this->slug = $cat->slug;
             $this->sort_order = $cat->sort_order;
             $this->parent_id = $cat->parent_id;
-            $this->image = $cat->image ?? [];
+            $this->image = null;
+            $this->existingImage = $cat->image ?? null;
         }
     }
 
@@ -42,10 +48,15 @@ class CategoriaAddEdit extends Component
             ],
             'sort_order' => 'required|integer',
             'parent_id' => 'nullable|exists:categories,id',
+            'image' => 'nullable|image|max:2048',
         ];
 
         $data = $this->validate($rules);
-        $data['image'] = $this->image;
+        if ($this->image) {
+            $data['image'] = ['url' => $this->image->store('categories', 'public')];
+        } else {
+            $data['image'] = $this->existingImage;
+        }
 
         Category::updateOrCreate(
             ['id' => $this->categoryId],
@@ -55,6 +66,7 @@ class CategoriaAddEdit extends Component
         session()->flash('success', 'Categoría guardada correctamente.');
         return redirect()->route('admin.product.category.browser');
     }
+
     public function render()
     {
         return view('livewire.admin.products.categoria-add-edit', [

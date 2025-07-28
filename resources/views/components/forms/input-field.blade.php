@@ -1,15 +1,4 @@
-@props([
-    'id',
-    'name',
-    'label',
-    'wireModel',
-    'placeholder' => '',
-    'type' => 'text',
-    'icon' => '',
-    'viewBox' => '0 0 16 16',
-])
-
-<div class="m-3">
+<div class="{{ $colrow }}">
     <label for="{{ $id }}" class="block text-sm font-medium text-gray-700 dark:text-gray-100 mb-1">
         {{ $label }}
     </label>
@@ -23,7 +12,7 @@
         @endif
         <input type="{{ $type }}" id="{{ $id }}" name="{{ $name }}"
             wire:model.defer="{{ $wireModel }}"
-            class="{{ $icon ? 'pl-10':'pl-3' }} pr-3 py-2 block w-full border border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-400 dark:text-white"
+            class="{{ $icon ? 'pl-10' : 'pl-3' }} pr-3 py-2 block w-full border border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-400 dark:text-white"
             placeholder="{{ $placeholder }}" />
     </div>
     @error($name)

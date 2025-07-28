@@ -1,39 +1,40 @@
 <div class="p-4">
-    <div class="flex justify-between items-center mb-4">
-        <div class="">
-            <nav class="text-sm font-medium text-neutral-600 dark:text-neutral-300" aria-label="breadcrumb">
-                <ol class="flex flex-wrap items-center gap-1">
-                    <li class="flex items-center gap-1.5">
-                        <a href="#" aira-label="home" class="hover:text-neutral-900 dark:hover:text-white flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                class="size-5 shrink-0" aria-hidden="true">
-                                <path
-                                    d="M10.362 1.093a.75.75 0 0 0-.724 0L2.523 5.018 10 9.143l7.477-4.125-7.115-3.925ZM18 6.443l-7.25 4v8.25l6.862-3.786A.75.75 0 0 0 18 14.25V6.443ZM9.25 18.693v-8.25l-7.25-4v7.807a.75.75 0 0 0 .388.657l6.862 3.786Z">
-                                </path>
-                            </svg>
-                            <span class="ml-2">Productos</span>
-                        </a>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true"
-                            stroke-width="2" stroke="currentColor" class="size-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </li>
-                    <li class="flex items-center gap-1 font-bold text-neutral-900 dark:text-white" aria-current="page">
-                        {{ $table }}
-                    </li>
-                </ol>
-            </nav>
+    <x-admin.breadcrumb principal="products" name="{{ $table }}"
+        accion="{{ $routes['add'] != 'no' ? 'create' : '' }}" urlAccion="{{ $routes['add'] }}" />
+
+    <form wire:submit.prevent="buscar" class="w-full max-w-md">
+        <div class="relative flex items-center mb-4">
+            <!-- Icono de lupa -->
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-neutral-400 dark:text-neutral-500"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 21l-5.2-5.2M16 10a6 6 0 11-12 0 6 6 0 0112 0z" />
+            </svg>
+
+            <!-- Campo de búsqueda -->
+            <input type="search" wire:model.debounce.300ms="search"
+                class="w-full rounded-full pl-10 pr-12 py-2 text-sm border border-neutral-300 bg-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:placeholder-neutral-500 dark:focus:ring-orange-400"
+                placeholder="{{ $labelSearch }}" name="search" />
+
+            <!-- Botón buscar -->
+            <button type="submit"
+                class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-5.2-5.2M16 10a6 6 0 11-12 0 6 6 0 0112 0z" />
+                </svg>
+            </button>
         </div>
 
-        <a href="{{ $routes['add'] }}" class="{{ site('btn.primary') }} relative">
-            <svg class="absolute w-8 left-2" focusable="false" aria-hidden="true" viewBox="0 0 24 24">
-                <path class="fill-white"
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m5 11h-4v4h-2v-4H7v-2h4V7h2v4h4z">
-                </path>
-            </svg>
-            <span class="ml-6.5 text-lg font-bold">Crear</span>
-        </a>
-    </div>
+        @if ($search)
+            <button wire:click="$set('search', '')" type="button"
+                class="text-sm text-orange-600 dark:text-orange-400 hover:underline ml-2 mb-3 transition">
+                Limpiar
+            </button>
+        @endif
+    </form>
 
     <div class="overflow-hidden w-full overflow-x-auto rounded-sm border border-neutral-300 dark:border-neutral-700">
         <table class="w-full text-left text-sm text-neutral-600 dark:text-neutral-300">

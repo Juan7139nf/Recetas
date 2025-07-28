@@ -48,7 +48,7 @@
         <!-- sidebar links  -->
         <div class="flex flex-col gap-2 overflow-y-auto pb-6">
 
-            <a href="#"
+            <a href="{{ route('admin.dashboard') }}"
                 class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 shrink-0"
                     aria-hidden="true">
@@ -82,7 +82,7 @@
 
                 <ul x-cloak x-collapse x-show="isExpanded" aria-labelledby="user-management-btn" id="user-management">
                     <li class="px-1 py-0.5 first:mt-2">
-                        <a href="#"
+                        <a href="{{ route('admin.manage.user.browser') }}"
                             class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus:outline-hidden focus-visible:underline dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white">Users</a>
                     </li>
                     <li class="px-1 py-0.5 first:mt-2">

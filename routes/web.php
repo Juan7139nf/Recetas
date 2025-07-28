@@ -20,6 +20,10 @@ use App\Livewire\Site\Home;
 use App\Livewire\Site\Order\Confirm;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Livewire\Admin\Users\UsuariosBrowser;
+use App\Livewire\Admin\Users\UsuariosEdit;
+use App\Livewire\Admin\Users\UsuariosRead;
+use App\Livewire\Site\Order\Comprar;
 
 /*
 Route::get('/', function () {
@@ -46,6 +50,14 @@ Route::middleware(['auth'])->group(function () {
 Route::prefix('dashboard')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
 
+    Route::prefix('manage')->name('manage.')->group(function () {
+        Route::prefix('user')->name('user.')->group(function () {
+            Route::get('/', UsuariosBrowser::class)->name('browser');
+            Route::get('/read/{id}', UsuariosRead::class)->name('read');
+            Route::get('/edit/{id}', UsuariosEdit::class)->name('edit');
+        });
+    });
+
     Route::prefix('product')->name('product.')->group(function () {
         Route::prefix('recipe')->name('recipe.')->group(function () {
             Route::get('/', RecetasBrowser::class)->name('browser');
@@ -56,9 +68,9 @@ Route::prefix('dashboard')->name('admin.')->middleware('auth')->group(function (
         });
         Route::prefix('category')->name('category.')->group(function () {
             Route::get('/', CategoriaBrowser::class)->name('browser');
-            Route::get('/read', CategoriaRead::class)->name('read');
-            Route::get('/create', CategoriaAddEdit::class)->name('add');
+            Route::get('/read/{id}', CategoriaRead::class)->name('read');
             Route::get('/edit/{id}', CategoriaAddEdit::class)->name('edit');
+            Route::get('/create', CategoriaAddEdit::class)->name('add');
         });
     });
 });
@@ -72,3 +84,4 @@ Route::get('/orden/cart', Confirm::class)
     ->middleware('auth');
 
 Route::get('/recipe/{id}', RecetasRead::class)->name('recipe.read');
+Route::get('/buy/{id}', Comprar::class)->name('recipe.buy');

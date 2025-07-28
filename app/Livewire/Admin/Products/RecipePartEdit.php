@@ -17,6 +17,7 @@ class RecipePartEdit extends Component
 
     public function mount($id)
     {
+        user_has_role();
         $recipePart = RecipePart::findOrFail($id);
         $this->recipePartId = $recipePart->id;
         $this->recipe_id = $recipePart->recipe_id;

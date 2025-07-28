@@ -12,9 +12,19 @@ class RecetasBrowser extends Component
 
     public $search = '';
 
-    protected $paginationTheme = 'bootstrap'; // o 'tailwind'
+    protected $paginationTheme = 'tailwind';
+
+    public function mount()
+    {
+        user_has_role();
+    }
 
     public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function buscar()
     {
         $this->resetPage();
     }
@@ -36,6 +46,7 @@ class RecetasBrowser extends Component
                 'read' => fn($id) => route('admin.product.recipe.read', $id),
             ],
             'table' => 'Recetas',
+            'labelSearch' => 'Buscar por nombre...',
         ])
             ->layout('layouts.admin', [
                 'title' => __('auth.register_step1'),

@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Livewire\Admin\Products;
+namespace App\Livewire\Admin\Users;
 
-use App\Models\Category;
-use App\Models\Recipe;
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class CategoriaBrowser extends Component
+class UsuariosBrowser extends Component
 {
-
     use WithPagination;
 
     public string $search = '';
-    
+
     protected $paginationTheme = 'tailwind';
-    
+
     public function mount()
     {
         user_has_role();
@@ -33,25 +31,26 @@ class CategoriaBrowser extends Component
 
     public function render()
     {
-        $categories = Category::query()
+        $users = User::query()
             ->where('name', 'like', '%' . $this->search . '%')
+            ->orWhere('email', 'like', '%' . $this->search . '%')
             ->latest()
             ->paginate(10);
 
         return view('bread.browser', [
-            'items' => $categories,
-            'columns' => ['id', 'name', 'image'],
-            'model' => 'admin.product.category.',
+            'items' => $users,
+            'columns' => ['id', 'name', 'email', 'created_at'],
+            'model' => 'admin.users.user.',
             'routes' => [
-                'add' => route('admin.product.category.add'),
-                'edit' => fn($id) => route('admin.product.category.edit', $id),
-                'read' => fn($id) => route('admin.product.category.read', $id),
+                'add' => 'no',
+                'edit' => fn($id) => route('admin.manage.user.edit', $id),
+                'read' => fn($id) => route('admin.manage.user.read', $id),
             ],
-            'table' => 'Categorías',
-            'labelSearch' => 'Buscar por categoría...',
+            'table' => 'Usuarios',
+            'labelSearch' => 'Buscar por nombre o email...',
         ])
             ->layout('layouts.admin', [
-                'title' => 'Categorias',
+                'title' => __('Usuarios'),
             ]);
     }
 }

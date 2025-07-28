@@ -25,6 +25,10 @@ class RolePermissionSeeder extends Seeder
             'display_name' => 'Usuario',
         ]);
 
+        $adminUser = User::find('hfJIGhd6d6aWQs0jd9hzU4q12jk2');
+
+        $adminUser->roles()->attach($adminRole->id);
+        /*
         $permissions = Permission::factory()->count(5)->create([
         ]);
 
@@ -37,6 +41,6 @@ class RolePermissionSeeder extends Seeder
         if ($users->count() >= 2) {
             $users[0]->roles()->sync([$adminRole->id]);
             $users[1]->roles()->sync([$userRole->id]); 
-        }
+        }*/
     }
 }

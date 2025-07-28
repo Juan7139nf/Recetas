@@ -15,7 +15,14 @@ class RecetasRead extends Component
 
     public function mount($id)
     {
-        $this->recipe = Recipe::with('parts', 'ratings')->findOrFail($id);
+        if (request()->routeIs('admin.*')) {
+            user_has_role();
+        }
+
+        $this->recipe = Recipe::with('parts', 'ratings')
+            ->where('id', $id)
+            ->orWhere('slug', $id)
+            ->firstOrFail();
 
         $this->recipe->setRelation(
             'parts',

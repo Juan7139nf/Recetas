@@ -20,6 +20,11 @@ class RecetasAdd extends Component
     public $difficulty = 'easy';
     public $duration_minutes = 30;
 
+    public function mount()
+    {
+        user_has_role();
+    }
+
     public function save()
     {
         $this->validate([

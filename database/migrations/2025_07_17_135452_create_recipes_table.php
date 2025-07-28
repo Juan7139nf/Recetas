@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->string('title');
+            $table->string('slug')->unique()->nullable();
             $table->string('gif_path')->nullable();
             $table->json('image')->nullable();
             $table->json('cover')->nullable();

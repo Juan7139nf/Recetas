@@ -29,6 +29,7 @@ class RecetasEdit extends Component
 
     public function mount($id)
     {
+        user_has_role();
         $recipe = Recipe::with('parts')->findOrFail($id);
         $this->recipeId = $recipe->id;
         $this->title = $recipe->title;
