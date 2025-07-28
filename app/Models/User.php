@@ -64,6 +64,8 @@ class User extends Authenticatable
         ];
     }
 
+    protected $appends = ['display_name'];
+
     protected static function boot()
     {
         parent::boot();
@@ -103,5 +105,14 @@ class User extends Authenticatable
     public function recipes()
     {
         return $this->hasMany(Recipe::class);
+    }
+
+    public function getDisplayNameAttribute()
+    {
+        if ($this->name && $this->lastname) {
+            return "{$this->name} {$this->lastname}";
+        }
+
+        return $this->name ?? $this->username ?? 'Invitado';
     }
 }

@@ -18,7 +18,7 @@
             autocomplete="off" />
 
         <div id="searchResults"
-            class="absolute z-50 mt-1 w-full rounded-md bg-white shadow-lg dark:bg-neutral-800 hidden">
+            class="absolute z-50 mt-10 py-2 w-full rounded-md bg-white shadow-lg dark:bg-neutral-800 hidden">
             <!-- Resultados se insertarán aquí -->
         </div>
     </div>
@@ -31,9 +31,11 @@
                 class="font-medium text-neutral-600 underline-offset-2 hover:text-black focus:outline-hidden focus:underline dark:text-neutral-300 dark:hover:text-white">Categorias</a>
         </li>
         @auth
-            <li><a href="{{ route('cart') }}"
+            <li>
+                <a href="{{ route('cart') }}"
                     class="font-medium text-neutral-600 underline-offset-2 hover:text-black focus:outline-hidden focus:underline dark:text-neutral-300 dark:hover:text-white">Carrito</a>
-        </li @endauth>
+            </li>
+        @endauth
         <li>
             <button onclick="toggleTheme()"
                 class="font-medium text-neutral-600 underline-offset-2 hover:text-black focus:outline-hidden focus:underline dark:text-neutral-300 dark:hover:text-white p-1 rounded-full">
@@ -62,18 +64,18 @@
                 class="rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white"
                 aria-controls="userMenu">
                 @auth
-                    <img src="{{ Auth::user()->avatar['url'] }}" alt="User Profile"
-                        class="size-10 rounded-full object-cover" />
+                <img src="{{ Auth::user()->avatar['url'] }}" alt="User Profile"
+                    class="size-10 rounded-full object-cover" />
                 @else
-                    <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="size-10 rounded-full p-1 {{ site('bg-linear-to-tr') }}">
+                <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="size-10 rounded-full p-1 {{ site('bg-linear-to-tr') }}">
 
-                        <path class="fill-black dark:fill-white"
-                            d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
-                        <path class="fill-black dark:fill-white"
-                            d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
-                    </svg>
-                    <img src="" alt="" srcset="">
+                    <path class="fill-black dark:fill-white"
+                        d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
+                    <path class="fill-black dark:fill-white"
+                        d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
+                </svg>
+                <img src="" alt="" srcset="">
                 @endauth
             </button>
             <!-- User Dropdown -->
@@ -83,38 +85,38 @@
                 id="userMenu"
                 class="absolute right-0 top-12 flex w-fit min-w-48 flex-col overflow-hidden rounded-sm border border-neutral-300 bg-neutral-50 py-1.5 dark:border-neutral-700 dark:bg-neutral-900">
                 @auth
-                    <li class="border-b border-neutral-300 dark:border-neutral-700">
-                        <div class="flex flex-col px-4 py-2">
-                            <span
-                                class="text-sm font-medium text-neutral-900 dark:text-white">{{ Auth::user()->username }}</span>
-                            <p class="text-xs text-neutral-600 dark:text-neutral-300">{{ Auth::user()->email }}</p>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">Dashboard
-                        </a>
-                    </li>
-                    <li><a href="#"
-                            class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">Subscription</a>
-                    </li>
-                    <li><a href="#"
-                            class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">Settings</a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="logout(event)"
-                            class="block bg-neutral-50 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-neutral-900/5 hover:text-red-700 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-red-600 dark:hover:bg-neutral-50/5 dark:hover:text-red-500 dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">{{ __('Logout') }}
-                        </a>
-                    </li>
+                <li class="border-b border-neutral-300 dark:border-neutral-700">
+                    <div class="flex flex-col px-4 py-2">
+                        <span
+                            class="text-sm font-medium text-neutral-900 dark:text-white">{{ Auth::user()->display_name }}</span>
+                        <p class="text-xs text-neutral-600 dark:text-neutral-300">{{ Auth::user()->email }}</p>
+                    </div>
+                </li>
+                <li>
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">Dashboard
+                    </a>
+                </li>
+                <li><a href="#"
+                        class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">Subscription</a>
+                </li>
+                <li><a href="#"
+                        class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">Settings</a>
+                </li>
+                <li>
+                    <a href="#" onclick="logout(event)"
+                        class="block bg-neutral-50 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-neutral-900/5 hover:text-red-700 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-red-600 dark:hover:bg-neutral-50/5 dark:hover:text-red-500 dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">{{ __('Logout') }}
+                    </a>
+                </li>
                 @else
-                    <li><a href="{{ route('auth.login') }}"
-                            class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">{{ __('Login') }}</a>
-                    </li>
-                    @if (Route::has('auth.register'))
-                        <li><a href="{{ route('auth.register') }}"
-                                class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">{{ __('Register') }}</a>
-                        </li>
-                    @endif
+                <li><a href="{{ route('auth.login') }}"
+                        class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">{{ __('Login') }}</a>
+                </li>
+                @if (Route::has('auth.register'))
+                <li><a href="{{ route('auth.register') }}"
+                        class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-hidden dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">{{ __('Register') }}</a>
+                </li>
+                @endif
                 @endauth
             </ul>
         </li>
@@ -142,11 +144,23 @@
         class="fixed max-h-svh overflow-y-auto inset-x-0 top-0 z-10 flex flex-col rounded-b-sm border-b border-neutral-300 bg-neutral-50 px-8 pb-6 pt-10 dark:border-neutral-700 dark:bg-neutral-900 sm:hidden">
         <li class="mb-4 border-none">
             <div class="flex items-center gap-2 py-2">
-                <img src="https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp" alt="User Profile"
+                @auth
+                <img src="{{ Auth::user()->avatar['url'] }}" alt="User Profile"
                     class="size-12 rounded-full object-cover" />
+                @else
+                <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="size-12 rounded-full p-1 {{ site('bg-linear-to-tr') }}">
+
+                    <path class="fill-black dark:fill-white"
+                        d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
+                    <path class="fill-black dark:fill-white"
+                        d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
+                </svg>
+                <img src="" alt="" srcset="">
+                @endauth
                 <div>
-                    <span class="font-medium text-neutral-900 dark:text-white">Alice Brown</span>
-                    <p class="text-sm text-neutral-600 dark:text-neutral-300">alice.brown@gmail.com</p>
+                    <span class="font-medium text-neutral-900 dark:text-white">{{ Auth::user()->display_name }}</span>
+                    <p class="text-sm text-neutral-600 dark:text-neutral-300">{{ Auth::user()->email }}</p>
                 </div>
             </div>
         </li>
@@ -188,68 +202,82 @@
 </div>
 
 @auth
-    <script>
-        function toggleTheme() {
-            $.ajax({
-                url: "{{ route('settings.toggleTheme') }}",
-                type: "POST",
-                data: {
-                    _method: 'POST',
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    console.log('Tema cambiado a:', response);
-                    if (response.theme) {
-                        document.documentElement.setAttribute('data-theme', response.theme);
+<script>
+    function toggleTheme() {
+        $.ajax({
+            url: "{{ route('settings.toggleTheme') }}",
+            type: "POST",
+            data: {
+                _method: 'POST',
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                console.log('Tema cambiado a:', response);
+                if (response.theme) {
+                    document.documentElement.setAttribute('data-theme', response.theme);
 
-                        if (response.theme === 'dark') {
-                            $('.light-icon').addClass('hidden');
-                            $('.dark-icon').removeClass('hidden');
-                        } else {
-                            $('.dark-icon').addClass('hidden');
-                            $('.light-icon').removeClass('hidden');
-                        }
+                    if (response.theme === 'dark') {
+                        $('.light-icon').addClass('hidden');
+                        $('.dark-icon').removeClass('hidden');
+                    } else {
+                        $('.dark-icon').addClass('hidden');
+                        $('.light-icon').removeClass('hidden');
                     }
-                },
-                error: function() {
-                    console.error('Error al cambiar tema');
-                },
-                complete: function() {
-                    console.log('La petición ha terminado');
                 }
-            });
-        }
+            },
+            error: function() {
+                console.error('Error al cambiar tema');
+            },
+            complete: function() {
+                console.log('La petición ha terminado');
+            }
+        });
+    }
 
-        function logout(e) {
-            e.preventDefault();
+    function logout(e) {
+        e.preventDefault();
 
-            $.ajax({
-                url: "{{ route('auth.logout') }}",
-                type: "POST",
-                data: {
-                    _method: 'DELETE',
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function() {
-                    location.reload();
-                },
-                error: function() {
-                    console.error('Error al cerrar sesión');
-                }
-            });
-        }
-    </script>
+        $.ajax({
+            url: "{{ route('auth.logout') }}",
+            type: "POST",
+            data: {
+                _method: 'DELETE',
+                _token: '{{ csrf_token() }}'
+            },
+            success: function() {
+                location.reload();
+            },
+            error: function() {
+                console.error('Error al cerrar sesión');
+            }
+        });
+    }
+</script>
 @else
-    <script>
-        const savedTheme = localStorage.getItem('theme');
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+<script>
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
 
-        console.log('Tema aplicado:', theme);
+    console.log('Tema aplicado:', theme);
 
-        document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
 
-        if (theme === 'dark') {
+    if (theme === 'dark') {
+        $('.light-icon').addClass('hidden');
+        $('.dark-icon').removeClass('hidden');
+    } else {
+        $('.dark-icon').addClass('hidden');
+        $('.light-icon').removeClass('hidden');
+    }
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        document.documentElement.setAttribute('data-theme', newTheme);
+
+        if (newTheme === 'dark') {
             $('.light-icon').addClass('hidden');
             $('.dark-icon').removeClass('hidden');
         } else {
@@ -257,74 +285,60 @@
             $('.light-icon').removeClass('hidden');
         }
 
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
+    }
+</script>
+@endauth
+<script>
+    $(document).ready(function() {
+        $('#searchInput').on('input', function() {
+            const query = $(this).val();
 
-            document.documentElement.setAttribute('data-theme', newTheme);
-
-            if (newTheme === 'dark') {
-                $('.light-icon').addClass('hidden');
-                $('.dark-icon').removeClass('hidden');
-            } else {
-                $('.dark-icon').addClass('hidden');
-                $('.light-icon').removeClass('hidden');
+            if (query.length < 2) {
+                $('#searchResults').empty().addClass('hidden');
+                return;
             }
 
-            localStorage.setItem('theme', newTheme);
-        }
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#searchInput').on('input', function() {
-                const query = $(this).val();
+            $.ajax({
+                url: "{{ route('search') }}",
+                type: 'GET',
+                data: {
+                    q: query
+                },
+                success: function(data) {
+                    const $results = $('#searchResults');
+                    $results.empty();
 
-                if (query.length < 2) {
-                    $('#searchResults').empty().addClass('hidden');
-                    return;
-                }
-
-                $.ajax({
-                    url: '{{ route('search') }}',
-                    type: 'GET',
-                    data: {
-                        q: query
-                    },
-                    success: function(data) {
-                        const $results = $('#searchResults');
-                        $results.empty();
-
-                        if (data.length === 0) {
-                            $results.append(
-                                '<div class="p-2 text-sm text-gray-500">Sin resultados</div>'
-                            );
-                        } else {
-                            data.forEach(item => {
-                                $results.append(`
-                                <a href="${item.id}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-neutral-700 border-b border-gray-100 dark:border-neutral-700">
+                    if (data.length === 0) {
+                        $results.append(
+                            '<div class="p-2 text-sm text-gray-500 dark:text-gray-50">Sin resultados</div>'
+                        );
+                    } else {
+                        data.forEach(item => {
+                            $results.append(`
+                                <a href="${item.id}" class="block px-4 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-700 border-b border-gray-100 dark:border-neutral-700">
                                     <div class="flex items-center gap-2">
                                         <img src="${item.cover['url']}" alt="${item.title}" class="w-10 h-10 object-cover rounded">
                                         <span>${item.title}</span>
                                     </div>
                                 </a>
                             `);
-                            });
-                        }
-
-                        $results.removeClass('hidden');
-                    },
-                    error: function() {
-                        console.error('Error al buscar.');
+                        });
                     }
-                });
-            });
 
-            // Ocultar resultados si se hace clic fuera
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest('#searchInput, #searchResults').length) {
-                    $('#searchResults').addClass('hidden');
+                    $results.removeClass('hidden');
+                },
+                error: function() {
+                    console.error('Error al buscar.');
                 }
             });
         });
-    </script>
-@endauth
+
+        // Ocultar resultados si se hace clic fuera
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('#searchInput, #searchResults').length) {
+                $('#searchResults').addClass('hidden');
+            }
+        });
+    });
+</script>

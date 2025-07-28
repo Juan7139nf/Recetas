@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Recipe;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -17,5 +18,12 @@ class SearchController extends Controller
             ->get(['id', 'title', 'cover']);
 
         return response()->json($results);
+    }
+
+    public function table()
+    {
+        $tabla = User::all();
+
+        return response()->json($tabla);
     }
 }
