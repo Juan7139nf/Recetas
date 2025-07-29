@@ -12,6 +12,7 @@ class RecetasRead extends Component
     public $recipe;
     public $userRating = null;
     public $averageRating = null;
+    public $comment = '';
 
     public function mount($id)
     {
@@ -19,6 +20,12 @@ class RecetasRead extends Component
             user_has_role();
         }
 
+        $this->loadRecipe($id);
+        $this->loadRatings();
+    }
+
+    private function loadRecipe($id)
+    {
         $this->recipe = Recipe::with('parts', 'ratings')
             ->where('id', $id)
             ->orWhere('slug', $id)
@@ -28,35 +35,51 @@ class RecetasRead extends Component
             'parts',
             $this->recipe->parts->sortBy('order')->values()
         );
+    }
 
-        if (Auth::check()) {
-            $user = Auth::user();
-            $userId = $user->id;
-            $recipeId = $this->recipe->id;
+    private function loadRatings()
+    {
+        $userId = Auth::id();
 
-            if ($user && $user->id && $this->recipe && $this->recipe->id) {
-                $this->userRating = Rating::where('user_id', $userId)->where('recipe_id', $recipeId)->first();
-            }
+        if ($userId) {
+            $this->userRating = Rating::where('user_id', $userId)
+                ->where('recipe_id', $this->recipe->id)
+                ->first();
+
+            $this->comment = optional($this->userRating)->comment ?? '';
+        } else {
+            $this->userRating = null;
+            $this->comment = '';
         }
 
-        $this->averageRating = round($this->recipe->ratings->avg('score'), 1);
+        $this->averageRating = round(
+            Rating::where('recipe_id', $this->recipe->id)->avg('score'),
+            1
+        );
     }
 
     public function rate($score)
     {
-        if (!Auth::check())
+        if (!Auth::check() || !in_array($score, [1, 2, 3, 4, 5])) {
             return;
+        }
 
         Rating::updateOrCreate(
             ['user_id' => Auth::id(), 'recipe_id' => $this->recipe->id],
-            ['score' => $score]
+            [
+                'score' => $score,
+                'comment' => $this->comment ? $this->comment : null,
+            ]
         );
 
-        $this->userRating = Rating::where('user_id', Auth::id())
-            ->where('recipe_id', $this->recipe->id)
-            ->first();
+        $this->loadRatings();
 
-        $this->averageRating = round($this->recipe->ratings()->avg('score'), 1);
+        // Reordenar partes por si cambió algo en la receta
+        $this->recipe->load('parts');
+        $this->recipe->setRelation(
+            'parts',
+            $this->recipe->parts->sortBy('order')->values()
+        );
     }
 
     public function render()

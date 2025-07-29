@@ -20,7 +20,7 @@ class Dashboard extends Component
         $this->topUsuariosConRecetas = User::withCount('recipes')
             ->get()
             ->map(fn($user) => [
-                'name' => $user->name . ' ' . $user->lastname,
+                'name' => $user->display_name,
                 'count' => $user->recipes_count
             ])
             ->sortByDesc('count')
@@ -47,7 +47,7 @@ class Dashboard extends Component
                 ];
             })
             ->sortByDesc('avg')
-            ->take(5)
+            ->take(7)
             ->values()
             ->toArray();
     }

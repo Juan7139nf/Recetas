@@ -33,5 +33,7 @@ return [
     'btn' => [
         'primary' => 'bg-linear-to-tr from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-white py-2 px-4 rounded-md font-semibold transition duration-200 ease-in-out flex justify-center items-center',
         'gray' => 'bg-linear-to-tl from-neutral-500 to-gray-400 hover:from-neutral-600 hover:to-gray-500 text-white py-1 px-3 rounded-md font-semibold transition duration-200 ease-in-out flex justify-center items-center',
+        'success' => 'bg-linear-to-tr from-emerald-400 to-teal-400 hover:from-emerald-500 hover:to-teal-500 text-white py-2 px-4 rounded-md font-semibold transition duration-200 ease-in-out flex justify-center items-center',
+        'danger' => 'bg-linear-to-tr from-red-400 to-pink-400 hover:from-red-500 hover:to-pink-500 text-white py-2 px-4 rounded-md font-semibold transition duration-200 ease-in-out flex justify-center items-center',
     ]
 ];

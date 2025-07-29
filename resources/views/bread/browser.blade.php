@@ -41,7 +41,7 @@
             <thead
                 class="border-b border-neutral-300 bg-neutral-50 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white">
                 <tr>
-                    @foreach ($columns as $col)
+                    @foreach ($headers as $col)
                         @if ($col != 'cover' && $col != 'id')
                             <th scope="col" class="p-4">{{ ucfirst(str_replace('_', ' ', $col)) }}</th>
                         @endif
@@ -53,24 +53,26 @@
                 @forelse ($items as $item)
                     <tr>
                         @foreach ($columns as $col)
-                            @if ($col != 'title' && $col != 'id')
-                                @php $valor = data_get($item, $col); @endphp
-                                @if ($col === 'cover' && is_array($valor) && isset($valor['url']))
+                            @php
+                                $valor = $item->$col;
+                            @endphp
+                            @if ($col != 'title' && $col != 'id' && $col != 'display_rating')
+                                @if ($col === 'cover_url')
                                     <td class="px-4">
                                         <div class="flex w-max items-center gap-2">
-                                            <img class="size-10 rounded-full object-cover"
-                                                src="{{ asset('storage/' . $valor['url']) }}" alt="img">
+                                            <img class="size-10 rounded-full object-cover" src="{{ $item->cover_url }}"
+                                                alt="img">
                                             <div class="flex flex-col">
                                                 <span
                                                     class="text-neutral-900 dark:text-white">{{ $item->title ?? 'Sin título' }}</span>
                                             </div>
                                         </div>
                                     </td>
-                                @elseif ($col === 'image' && is_array($valor) && isset($valor['url']))
+                                @elseif ($col === 'image_url')
                                     <td class="px-4">
                                         <div class="flex w-max items-center gap-2">
                                             <img class="size-10 rounded-full object-cover"
-                                                src="{{ asset('storage/' . $valor['url']) }}" alt="img">
+                                                src="{{ $item->image_url }}" alt="img">
                                         </div>
                                     </td>
                                 @elseif (is_array($valor))
@@ -81,18 +83,33 @@
                                         {{ $valor }}
                                     </td>
                                 @endif
+                            @elseif ($col === 'display_rating')
+                                <td class="text-center">
+                                    {!! $item->display_rating !!}
+                                </td>
                             @endif
                         @endforeach
 
 
-                        <td class="p-4">
-                            <a href="{{ $routes['edit']($item->id) }}"
-                                class="whitespace-nowrap rounded-sm bg-transparent p-0.5 font-semibold text-black outline-black hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 active:opacity-100 active:outline-offset-0 dark:text-white dark:outline-white">
-                                Edit
+                        <td class="p-4 flex items-center gap-2">
+                            <a href="{{ $routes['edit']($item->id) }}" class="{{ site('btn.success') }} relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-pencil-fill absolute left-3 size-5"
+                                    viewBox="0 0 16 16">
+                                    <path class="fill-white"
+                                        d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
+                                </svg>
+                                <span class="ml-5 text-md font-bold">Editar</span>
                             </a>
-                            <a href="{{ $routes['read']($item->id) }}"
-                                class="whitespace-nowrap rounded-sm bg-transparent p-0.5 font-semibold text-black outline-black hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 active:opacity-100 active:outline-offset-0 dark:text-white dark:outline-white">
-                                Ver
+                            <a href="{{ $routes['read']($item->id) }}" class="{{ site('btn.primary') }} relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-eye-fill absolute left-2 size-6"
+                                    viewBox="0 0 16 16">
+                                    <path class="fill-white" d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                                    <path class="fill-white"
+                                        d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                                </svg>
+                                <span class="ml-5 text-md font-bold">Ver</span>
                             </a>
                         </td>
                     </tr>

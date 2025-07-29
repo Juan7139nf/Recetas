@@ -20,7 +20,7 @@ class Confirm extends Component
 
         $this->orden = Order::where('user_id', $user->id)
             ->where('status', 'pendiente')
-            ->with('orderDetails.recipe') // Asegúrate de tener esta relación en el modelo
+            ->with('orderDetails.recipe') // asegúrate que esta relación existe
             ->first();
 
         if ($this->orden) {
@@ -36,12 +36,12 @@ class Confirm extends Component
         }
 
         $this->orden->status = 'confirmado';
-        $this->orden->ordered_at = now(); // ya lo tienes, pero puedes actualizarlo si quieres
+        $this->orden->ordered_at = now();
         $this->orden->save();
 
         session()->flash('success', '¡Orden confirmada correctamente!');
 
-        return redirect()->route('home'); // o a donde quieras redirigir
+        return redirect()->route('home');
     }
 
     public function agregarReceta($id)
@@ -49,17 +49,17 @@ class Confirm extends Component
         $user = Auth::user();
         $recipe = Recipe::findOrFail($id);
 
-        if (!$recipe->price || $recipe->price <= 0) {
-            return back()->with('error', 'Esta receta no puede ser añadida al pedido.');
+        // Validar que el precio es numérico y mayor que 0
+        if (!is_numeric($recipe->price) || $recipe->price <= 0) {
+            session()->flash('error', 'Esta receta no puede ser añadida al pedido.');
+            return redirect()->back();
         }
 
-        // Buscar orden pendiente del usuario
         $orden = Order::where('user_id', $user->id)
             ->where('status', 'pendiente')
             ->first();
 
         if (!$orden) {
-            // Crear nueva orden
             $orden = Order::create([
                 'id' => (string) Str::uuid(),
                 'user_id' => $user->id,
@@ -69,7 +69,6 @@ class Confirm extends Component
             ]);
         }
 
-        // Agregar detalle (sin verificar si ya está en el pedido)
         OrderDetail::create([
             'id' => (string) Str::uuid(),
             'order_id' => $orden->id,
@@ -77,11 +76,12 @@ class Confirm extends Component
             'price' => $recipe->price,
         ]);
 
-        // Actualizar total
-        $orden->total += $recipe->price;
+        // Asegurarse de que total sea float antes de sumar
+        $orden->total = (float) $orden->total + (float) $recipe->price;
         $orden->save();
 
-        return redirect()->back()->with('success', 'Receta añadida al pedido.');
+        session()->flash('success', 'Receta añadida al pedido.');
+        return redirect()->back();
     }
 
     public function eliminarDetalle($detalleId)
@@ -92,13 +92,11 @@ class Confirm extends Component
             return;
         }
 
-        // Restar el precio del total
-        $this->orden->total -= $detalle->price;
+        $this->orden->total = (float) $this->orden->total - (float) $detalle->price;
         $this->orden->save();
 
         $detalle->delete();
 
-        // Actualizar la lista
         $this->detalles = $this->orden->fresh()->orderDetails;
 
         session()->flash('success', 'Receta eliminada del pedido.');

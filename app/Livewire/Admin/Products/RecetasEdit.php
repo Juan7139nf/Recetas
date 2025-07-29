@@ -26,6 +26,7 @@ class RecetasEdit extends Component
     public $parts = [];
     public $selectedCategories = [];
     public $allCategories = [];
+    public $mostrarCategorias = false;
 
     public function mount($id)
     {
@@ -168,6 +169,23 @@ class RecetasEdit extends Component
 
         $this->parts = array_filter($this->parts, fn($p) => $p['id'] !== $id);
         $this->parts = array_values($this->parts);
+    }
+
+    public function toggleCategory($id)
+    {
+        if (in_array($id, $this->selectedCategories)) {
+            $this->removeCategory($id);
+        } else {
+            $this->selectedCategories[] = $id;
+        }
+    }
+
+    public function removeCategory($id)
+    {
+        $this->selectedCategories = array_filter(
+            $this->selectedCategories,
+            fn($catId) => $catId != $id
+        );
     }
 
     public function render()

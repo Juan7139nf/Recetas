@@ -39,7 +39,8 @@ class UsuariosBrowser extends Component
 
         return view('bread.browser', [
             'items' => $users,
-            'columns' => ['id', 'name', 'email', 'created_at'],
+            'headers' => ['Avatar', 'Usuario', 'Nombre', 'Apellido', 'Email'],
+            'columns' => ['id', 'image_url', 'username', 'name', 'lastname', 'email'],
             'model' => 'admin.users.user.',
             'routes' => [
                 'add' => 'no',

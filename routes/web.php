@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Site\OrdenController;
 use App\Http\Controllers\Site\SettingsController;
@@ -85,3 +86,6 @@ Route::get('/orden/cart', Confirm::class)
 
 Route::get('/recipe/{id}', RecetasRead::class)->name('recipe.read');
 Route::get('/buy/{id}', Comprar::class)->name('recipe.buy');
+
+
+Route::get('/search', [SearchController::class,'search'])->name('search');

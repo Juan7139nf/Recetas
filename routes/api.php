@@ -17,5 +17,3 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/table', [SearchController::class, 'table'])->name('table');
-
-Route::get('/search', [SearchController::class,'search'])->name('search');

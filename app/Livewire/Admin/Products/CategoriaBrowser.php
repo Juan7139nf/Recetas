@@ -13,9 +13,9 @@ class CategoriaBrowser extends Component
     use WithPagination;
 
     public string $search = '';
-    
+
     protected $paginationTheme = 'tailwind';
-    
+
     public function mount()
     {
         user_has_role();
@@ -40,7 +40,8 @@ class CategoriaBrowser extends Component
 
         return view('bread.browser', [
             'items' => $categories,
-            'columns' => ['id', 'name', 'image'],
+            'headers' => ['Nombre', 'Pertenece a', 'Imagen'],
+            'columns' => ['id', 'name', 'display_parent', 'image_url'],
             'model' => 'admin.product.category.',
             'routes' => [
                 'add' => route('admin.product.category.add'),

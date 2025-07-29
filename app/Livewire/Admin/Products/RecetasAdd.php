@@ -32,7 +32,7 @@ class RecetasAdd extends Component
             'price' => 'nullable|numeric',
             'license' => 'required|string',
             'gif_path' => 'nullable|string|max:255',
-            'cover' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'cover' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'difficulty' => 'required|string',
             'duration_minutes' => 'required|integer',

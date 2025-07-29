@@ -17,6 +17,7 @@ class InputField extends Component
     public $type;
     public $icon;
     public $viewBox;
+    public $other;
 
     /**
      * Create a new component instance.
@@ -30,7 +31,8 @@ class InputField extends Component
         $placeholder = '',
         $type = 'text',
         $icon = '',
-        $viewBox = '0 0 16 16'
+        $viewBox = '0 0 16 16',
+        $other = ''
     ) {
         $this->colrow = $colrow;
         $this->id = $id;
@@ -41,6 +43,7 @@ class InputField extends Component
         $this->type = $type;
         $this->icon = $icon;
         $this->viewBox = $viewBox;
+        $this->other = $other;
     }
 
     /**

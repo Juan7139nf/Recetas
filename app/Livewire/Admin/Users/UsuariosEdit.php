@@ -32,7 +32,8 @@ class UsuariosEdit extends Component
         // Sincronizamos el nuevo rol
         $this->user->roles()->sync([$this->role_id]);
 
-        session()->flash('success', 'Rol actualizado correctamente.');
+        redirect(route('admin.manage.user.browser', $this->user->id));
+        // session()->flash('success', 'Rol actualizado correctamente.');
     }
 
     public function render()

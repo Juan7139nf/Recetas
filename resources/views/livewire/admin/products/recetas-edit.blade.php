@@ -1,107 +1,96 @@
 <div class="p-4">
-    <div class="flex justify-between items-center mb-4">
-        <nav class="text-sm font-medium text-neutral-600 dark:text-neutral-300" aria-label="breadcrumb">
-            <ol class="flex flex-wrap items-center gap-1">
-                <li class="flex items-center gap-1.5">
-                    <a href="#" aria-label="home" class="hover:text-neutral-900 dark:hover:text-white flex">
-                        <!-- Ícono casa SVG -->
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                            class="size-5 shrink-0" aria-hidden="true">
-                            <path
-                                d="M10.362 1.093a.75.75 0 0 0-.724 0L2.523 5.018 10 9.143l7.477-4.125-7.115-3.925ZM18 6.443l-7.25 4v8.25l6.862-3.786A.75.75 0 0 0 18 14.25V6.443ZM9.25 18.693v-8.25l-7.25-4v7.807a.75.75 0 0 0 .388.657l6.862 3.786Z">
-                            </path>
-                        </svg>
-                        <span class="ml-2">Productos</span>
-                    </a>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true"
-                        stroke-width="2" stroke="currentColor" class="size-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                    </svg>
-                </li>
-                <li class="flex items-center gap-1">
-                    <a href="#" class="hover:text-neutral-900 dark:hover:text-white">Recetas</a>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true"
-                        stroke-width="2" stroke="currentColor" class="size-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                    </svg>
-                </li>
-                <li class="flex items-center gap-1 font-bold text-neutral-900 dark:text-white" aria-current="page">
-                    Editar</li>
-            </ol>
-        </nav>
+    <x-admin.breadcrumb principal="products" secondary="Recetas" urlSecondary="{{ route('admin.product.recipe.browser') }}"
+        name="Editar" accion="return" urlAccion="{{ route('admin.product.recipe.browser') }}" />
 
-        <a href="{{ route('admin.product.recipe.browser') }}" class="{{ site('btn.gray') }} relative">
-            <svg class="absolute w-10 left-1.5" focusable="false" aria-hidden="true" viewBox="0 0 24 24">
-                <path class="fill-white"
-                    d="M7 7.56c0-.94-1.14-1.42-1.81-.75L.71 11.29c-.39.39-.39 1.02 0 1.41l4.48 4.48c.67.68 1.81.2 1.81-.74 0-.28-.11-.55-.31-.75L3 12l3.69-3.69c.2-.2.31-.47.31-.75M13 9V7.41c0-.89-1.08-1.34-1.71-.71L6.7 11.29c-.39.39-.39 1.02 0 1.41l4.59 4.59c.63.63 1.71.18 1.71-.71V14.9c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11">
-                </path>
-            </svg>
-            <span class="ml-8 text-lg font-bold">Volver</span>
-        </a>
-    </div>
 
-    <div class="max-w-xl mx-auto mt-10 p-6 bg-white shadow rounded">
+    <div class="">
         <form wire:submit.prevent="save" enctype="multipart/form-data">
-            <h2 class="text-xl font-bold mb-4">Editar Receta</h2>
+            <div class="grid grid-flow-col grid-rows-3 gap-4">
+                <x-forms.input-field colrow="col-span-3" id="title" name="title" label="Titulo*" wireModel="title"
+                    placeholder="Ingresa el nombre de la receta" type="text" viewBox="0 0 16 16"
+                    icon='<path class="fill-gray-400" d="M12.258 3h-8.51l-.083 2.46h.479c.26-1.544.758-1.783 2.693-1.845l.424-.013v7.827c0 .663-.144.82-1.3.923v.52h4.082v-.52c-1.162-.103-1.306-.26-1.306-.923V3.602l.431.013c1.934.062 2.434.301 2.693 1.846h.479z"/>' />
 
-            {{-- Título --}}
-            <div class="mb-4">
-                <label class="block">Título</label>
-                <input type="text" wire:model="title" class="w-full border px-3 py-2 rounded">
-                @error('title')
-                    <span class="text-red-500">{{ $message }}</span>
-                @enderror
+                <x-forms.input-field colrow="col-span-1" id="gif_path" name="gif_path" label="GIF (opcional)"
+                    wireModel="gif_path" placeholder="Ingresa la URL del GIF" type="text" />
+
+                <x-forms.input-field colrow="col-span-1" id="price" name="price" label="Precio*" wireModel="price"
+                    placeholder="Ingresa el precio" type="number" other="step=0.01 min=0" />
+
+                <x-forms.select-field id="license" name="license" label="Licencia" wireModel="license"
+                    :options="[
+                        ['value' => 'copyright', 'label' => 'Todos los derechos reservados'],
+                        ['value' => 'cc_by', 'label' => 'CC BY (Reconocimiento)'],
+                        ['value' => 'cc_by_sa', 'label' => 'CC BY-SA (Compartir igual)'],
+                        ['value' => 'cc_by_nc', 'label' => 'CC BY-NC (No comercial)'],
+                        ['value' => 'cc0', 'label' => 'CC0 (Dominio público)'],
+                    ]" placeholder="Seleccione la licencia" />
+
+                <x-forms.select-field id="difficulty" name="difficulty" label="Dificultad" wireModel="difficulty"
+                    :options="[
+                        ['value' => 'easy', 'label' => 'Fácil'],
+                        ['value' => 'medium', 'label' => 'Media'],
+                        ['value' => 'hard', 'label' => 'Difícil'],
+                    ]" placeholder="Seleccione la dificultad" />
+
+                <x-forms.input-field colrow="col-span-1" id="duration_minutes" name="duration_minutes"
+                    label="Duración (minutos)" wireModel="duration_minutes" placeholder="Ingresa la duración"
+                    type="number" other="min=0" />
             </div>
 
-            {{-- GIF (opcional) --}}
             <div class="mb-4">
-                <label class="block">GIF (opcional)</label>
-                <input type="text" wire:model="gif_path" class="w-full border px-3 py-2 rounded">
-            </div>
+                <label class="block font-semibold mb-2 text-gray-800 dark:text-gray-100">Categorías</label>
 
-            {{-- Precio --}}
-            <div class="mb-4">
-                <label class="block">Precio</label>
-                <input type="number" wire:model="price" step="0.01" class="w-full border px-3 py-2 rounded">
-            </div>
+                {{-- Botón para desplegar/ocultar la lista --}}
+                <button type="button"
+                    class="mb-2 px-4 py-2 bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 rounded"
+                    wire:click="$toggle('mostrarCategorias')">
+                    {{ $mostrarCategorias ? 'Ocultar categorías' : 'Seleccionar categorías' }}
+                </button>
 
-            {{-- Licencia --}}
-            <div class="mb-4">
-                <label class="block">Licencia</label>
-                <input type="text" wire:model="license" class="w-full border px-3 py-2 rounded">
-            </div>
+                {{-- Lista de categorías en forma de tarjetas --}}
+                @if ($mostrarCategorias)
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
+                        @foreach ($allCategories as $category)
+                            <div class="border p-2 rounded cursor-pointer transition duration-200
+                        {{ in_array($category->id, $selectedCategories)
+                            ? 'bg-blue-100 border-blue-500 dark:bg-blue-900 dark:border-blue-400'
+                            : 'hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-600 border-gray-300' }}"
+                                wire:click="toggleCategory({{ $category->id }})">
+                                <span class="text-gray-800 dark:text-gray-100">{{ $category->name }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
 
-            {{-- Dificultad --}}
-            <div class="mb-4">
-                <label class="block">Dificultad</label>
-                <select wire:model="difficulty" class="w-full border px-3 py-2 rounded">
-                    <option value="easy">Fácil</option>
-                    <option value="medium">Media</option>
-                    <option value="hard">Difícil</option>
-                </select>
-            </div>
+                {{-- Categorías seleccionadas --}}
+                @if (count($selectedCategories) > 0)
+                    <div class="mb-2">
+                        <p class="font-semibold mb-1 text-gray-800 dark:text-gray-100">Seleccionadas:</p>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach ($allCategories->whereIn('id', $selectedCategories) as $category)
+                                <div
+                                    class="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full
+                               dark:bg-blue-900 dark:text-blue-300">
+                                    <span class="mr-2">{{ $category->name }}</span>
+                                    <button type="button" wire:click="removeCategory({{ $category->id }})"
+                                        class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300">
+                                        ✕
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
-            {{-- Duración --}}
-            <div class="mb-4">
-                <label class="block">Duración (minutos)</label>
-                <input type="number" wire:model="duration_minutes" class="w-full border px-3 py-2 rounded">
-            </div>
-            
-            <div class="mb-4">
-                <label class="block">Categorías</label>
-                <select wire:model="selectedCategories" multiple class="w-full border px-3 py-2 rounded h-40">
-                    @foreach ($allCategories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
                 @error('selectedCategories')
-                    <span class="text-red-500">{{ $message }}</span>
+                    <span class="text-red-500 dark:text-red-400">{{ $message }}</span>
                 @enderror
             </div>
+
 
             {{-- Portada --}}
             <div class="mb-4">
-                <label class="block">Portada</label>
+                <label class="block text-black dark:text-white">Portada</label>
                 <div x-data="{
                     isDragging: false,
                     previewUrl: null,
@@ -143,7 +132,7 @@
 
             {{-- Imágenes --}}
             <div class="mb-4">
-                <label class="block">Imágenes</label>
+                <label class="block text-black dark:text-white">Imágenes</label>
 
                 {{-- Mostrar imágenes existentes --}}
                 @if (!empty($existingImages))
@@ -224,45 +213,58 @@
                 @enderror
             </div>
 
-            <button type="submit" wire:loading.attr="disabled"
-                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                Guardar Receta
+            <button type="submit" wire:loading.attr="disabled" class="w-full {{ site('btn.success') }}">
+                <span wire:target="save">Guardar Receta</span>
+                <svg wire:loading wire:target="save" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    aria-hidden="true" class="size-5 motion-safe:animate-spin fill-white ml-1">
+                    <path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+                        opacity=".25" />
+                    <path
+                        d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" />
+                </svg>
             </button>
 
-            <h2 class="text-lg font-bold mb-4">Partes de la receta</h2>
+            <div class="flex justify-between items-center mt-6">
+                <h2 class="text-lg font-bold mb-4 text-black dark:text-white">Partes de la receta</h2>
 
-            <div>
+                <button type="button" wire:click="addPart" class="{{ site('btn.primary') }} mb-4">
+                    Añadir Parte</button>
+            </div>
+            <div class="text-gray-800 dark:text-gray-100 mb-4 bg-neutral-200 dark:bg-neutral-800 p-4 rounded">
                 @foreach ($parts as $index => $part)
-                    <div wire:key="part-{{ $index }}" class="mb-4 border p-4 rounded bg-gray-100">
+                    <div wire:key="part-{{ $index }}" class="mb-4">
                         <div class="flex justify-between">
                             <strong>Parte {{ $index + 1 }}</strong>
-                            <a href="{{ route('admin.product.recipe.part', $part['id']) }}">Editar</a>
+                            <a href="{{ route('admin.product.recipe.part', $part['id']) }}"
+                                class="{{ site('btn.gray') }}">Editar</a>
                             <button type="button" wire:click="deletePart('{{ $part['id'] }}')"
-                                class="text-red-600">🗑️</button>
+                                class="{{ site('btn.danger') }}"><svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor" class="bi bi-trash3-fill"
+                                    viewBox="0 0 16 16">
+                                    <path class="fill-white"
+                                        d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                                </svg></button>
                         </div>
 
-                        <label>Display</label>
-                        <input type="text" wire:model="parts.{{ $index }}.display"
-                            class="w-full border px-3 py-2 rounded">
+                        <x-forms.input-field id="parts.{{ $index }}.display"
+                            name="parts.{{ $index }}.display" label="Display (opcional)"
+                            wireModel="parts.{{ $index }}.display" placeholder="Ingresa el display"
+                            type="text" viewBox="0 0 16 16"
+                            icon='<path class="fill-gray-400" d="M12.258 3h-8.51l-.083 2.46h.479c.26-1.544.758-1.783 2.693-1.845l.424-.013v7.827c0 .663-.144.82-1.3.923v.52h4.082v-.52c-1.162-.103-1.306-.26-1.306-.923V3.602l.431.013c1.934.062 2.434.301 2.693 1.846h.479z"/>' />
 
                         <label>Ingredientes</label>
                         <div class="ql-snow">
-                            <div id="ingredients-{{ $index }}" class="ql-editor w-full">
-                                {!! $part['ingredients'] !!}
-                            </div>
+                            <div id="ingredients-{{ $index }}" class="ql-editor">{!! $part['ingredients'] !!}</div>
                         </div>
 
                         <label class="mt-2">Descripción</label>
                         <div class="ql-snow">
-                            <div id="description-{{ $index }}" class="ql-editor w-full">
-                                {!! $part['description'] !!}
-                            </div>
+                            <div id="description-{{ $index }}" class="ql-editor">{!! $part['description'] !!}</div>
                         </div>
+
+                        <hr>
                     </div>
                 @endforeach
-
-                <button type="button" wire:click="addPart" class="bg-green-600 text-white px-4 py-2 rounded">➕
-                    Añadir Parte</button>
             </div>
 
         </form>

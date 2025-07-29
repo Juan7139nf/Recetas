@@ -64,7 +64,7 @@ class User extends Authenticatable
         ];
     }
 
-    protected $appends = ['display_name'];
+    protected $appends = ['display_name', 'image_url'];
 
     protected static function boot()
     {
@@ -106,6 +106,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Recipe::class);
     }
+    
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
 
     public function getDisplayNameAttribute()
     {
@@ -114,5 +120,26 @@ class User extends Authenticatable
         }
 
         return $this->name ?? $this->username ?? 'Invitado';
+    }
+
+
+    public function getImageUrlAttribute(): string
+    {
+        $image = $this->avatar;
+
+        if (is_array($image) && isset($image['url'])) {
+            $url = $image['url'];
+
+            // Si ya es una URL completa (http o https), devuélvela tal cual
+            if (str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) {
+                return $url;
+            }
+
+            // Si es una ruta relativa, prepende 'storage/'
+            return asset('storage/' . ltrim($url, '/'));
+        }
+
+        // Imagen por defecto
+        return asset('images/default.png');
     }
 }
